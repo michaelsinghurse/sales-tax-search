@@ -1,18 +1,28 @@
 <li class="results-list-item">
   <div class="results-input-and-rates-container">
     <ul class="results-list-search-input">
-      <li class="results-list-item-search-input"><span>Street:</span><% if (addressObject.street) { -%><%= addressObject.street %><% } else { -%>n/a<% } -%></li>
-      <li class="results-list-item-search-input"><span>City:</span><% if (addressObject.city) { -%><%= addressObject.city %><% } else { -%>n/a<% } -%></li>
-      <li class="results-list-item-search-input"><span>State:</span><% if (addressObject.state) { -%><%= addressObject.state %><% } else { -%>n/a<% } -%></li> 
-      <li class="results-list-item-search-input"><span>Zip:</span><% if (addressObject.zip) { -%><%= addressObject.zip %><% } else { -%>n/a<% } -%></li>
+      <li class="results-list-item-search-input">
+        <span>Street:</span>
+        <% if (addressObject.street) { -%><%= addressObject.street %><% } else { -%>n/a<% } -%>
+      </li>
+      <li class="results-list-item-search-input">
+        <span>City:</span>
+        <% if (addressObject.city) { -%><%= addressObject.city %><% } else { -%>n/a<% } -%>
+      </li>
+      <li class="results-list-item-search-input">
+        <span>State:</span>
+        <% if (addressObject.state) { -%><%= addressObject.state %><% } else { -%>n/a<% } -%>
+      </li> 
+      <li class="results-list-item-search-input">
+        <span>Zip:</span>
+        <% if (addressObject.zip) { -%><%= addressObject.zip %><% } else { -%>n/a<% } -%>
+      </li>
     </ul>
-    <p>An error occurred on the server. Please reload the page and try again.<p>
+    <p>An error occurred on the server. Please reload the page and try again.</p>
     <p>Error detail: <%= error.detail %></p>
     <p>Error status: <%= error.status %></p>
   </div>
   <div class="google-map" aria-label="google map with pin on the sales location">
-    <div id="map">
-        
-    </div>
+    <div id="map"> </div>
   </div>
 </li>
