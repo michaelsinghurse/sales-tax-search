@@ -15,7 +15,6 @@ app.use(morgan('common'));
 const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
-
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -45,8 +44,8 @@ function closeServer() {
     console.log('closing server now');
     server.close(err => {
       if(err) {
-          reject(err);
-          return;
+        reject(err);
+        return;
       }
       resolve();
     });

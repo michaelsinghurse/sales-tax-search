@@ -111,5 +111,5 @@ function renderGoogleMapAtLatLng(addressLatLng) {
 }
 
 $(function() {
-    handleAddressInput();
+  handleAddressInput();
 });
