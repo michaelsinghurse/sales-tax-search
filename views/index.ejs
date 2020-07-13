@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WhatsTheSalesTax</title>
+  <meta name="viewport" content="width=device-width initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="./images/favicon.jpg">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="./stylesheets/index.css"/>
+</head>
+<body>
+  <header role="banner">
+    <nav>
+      <ul class="navbar-list">
+        <li class="navbar-list-item navbar-logo"><a href="#">WhatsTheSalesTax.com</a></li>
+        <li class="navbar-list-item"><a href="#">About</a></li>
+        <li class="navbar-list-item"><a href="#">Log In</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main role="main">
+    <!-- <h1>FindSalesTaxRates.com</h1> -->
+    <section class="section-user-input">
+      <form class="search-form js-search-form">
+        <fieldset>
+          <legend>Enter Your Sales Location</legend>
+          <div class="form-input-wrapper">
+            <div class="label-input-wrapper">
+              <label for="street" class="label-street">Street:</label>
+              <input id="street" type="text" class="input-street">
+            </div>
+            <div class="label-input-wrapper">
+              <label for="city">City:</label>
+              <input id="city" type="text" class="input-city">
+            </div>
+            <div class="label-input-wrapper">
+              <label for="state">State:</label>
+              <input id="state" type="text" class="input-state">
+            </div>
+            <div class="label-input-wrapper">
+              <label for="zip">Zip:</label>
+              <input id="zip" type="text" class="input-zip" pattern="[0-9]{5}" required>
+            </div>
+          </div>
+        </fieldset>
+        <button type="submit" class="search-form-submit-button">Find Rates</button>
+      </form>
+    </section>
+    <section class="section-search-results">
+      <ul class="results-list js-results-list" aria-live="assertive" hidden>
+        
+      <!-- each search result will be a prepended <li> -->
+            
+      </ul>
+    </section>
+    <div class="div-for-sticky-footer"></div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-copyright">&copy; Michael Singhurse, Lisieux Research, LLC</p>
+    <p>www.lisieuxresearch.com</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+  <script type="text/javascript" src="./scripts/client.js"></script>
+  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMJpsPy0GqG3__-9gYJqOOwIUhfHCsSi8"></script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+* {
+  margin: 0;
+}
+
+html { 
+  height: 100%;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+    url('../images/USA_Counties.svg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body * { 
+    box-sizing: border-box; 
+}
+
+header {
+  width: 100%;
+  background: white;
+  /* min-height: 3rem; */
+  border-bottom: 2px solid royalblue;
+}
+
+.navbar-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: royalblue;
+  font-size: 0;
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar-list-item {
+  font-size: 1rem;
+  padding: 0.7rem 1rem;   
+}
+
+.navbar-logo {
+  margin-right: auto;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.navbar-list-item a,
+.navbar-list-item a:link,
+.navbar-list-item a:visited,
+.navbar-list-item a:hover,
+.navbar-list-item a:active {
+  text-decoration: none;
+  color: royalblue;
+}
+
+/*************************************************************
+USER INPUT
+*************************************************************/
+main {
+  /* height: 100%; */
+  min-height: 30rem;
+  flex: 1 0 auto;
+}
+
+.section-user-input {
+  width: 95%;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-form {
+  margin-top: 2rem;
+  color: rgb(255, 50, 0);
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-form fieldset {
+  border: none;
+  max-width: 40rem;
+  padding: 0;
+}
+
+.search-form legend {
+  font-size: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.form-input-wrapper {
+  display: flex; 
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+.label-input-wrapper {
+  margin-right: 1rem;
+}
+
+.search-form label {
+  font-size: 1.2rem;
+  display: block;
+  max-width: 10rem;
+  margin-bottom: 0.3rem;
+}
+
+.search-form input {
+  font-size: 1rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  border: 1px solid gray;
+  border-radius: 0.3rem;
+  color: black;
+  height: 2rem;
+}
+
+.search-form input:focus {
+  border: 2px solid royalblue;
+  border-radius: 0.3rem;
+  outline: none;
+}
+
+.search-form .input-street {
+  width: 14rem;
+}
+
+.search-form .input-city {
+  width: 10rem;
+}
+
+.search-form .input-state,
+.search-form .input-zip {
+  width: 4rem;
+}
+
+.search-form-submit-button {
+  background-color: royalblue;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  height: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: auto;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.search-form-submit-button:hover,
+.search-form-submit-button:focus {
+  background-color: navy;
+  outline: none;
+}
+
+
+/*************************************************************
+SEARCH RESULT LIST
+*************************************************************/
+.section-search-results {
+  width: 95%;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.results-list {
+  margin-left: auto;
+  margin-right: auto;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.results-list-item {
+  background-color: white;
+  border: 1px solid gray;
+  box-shadow: 3px 3px gray;
+  border-radius: 0.5rem;
+  max-width: 60rem;
+  margin: 1rem auto 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.results-input-and-rates-container {
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.results-list-search-input {
+  list-style-type: none;
+  padding-left: 0;
+  font-size: 1.1rem;
+}
+
+.results-list-search-input li {
+  font-weight: 400;
+  padding-left: 0rem;
+}
+
+.results-list-item-search-input > span {
+  display: inline-block;
+  width: 5rem;
+}
+
+/*************************************************************
+JURISDICTIONS & RATES
+*************************************************************/
+
+.results-list-search-rates {
+  list-style-type: none;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border: 1px solid rgb(255, 50, 0);
+  border-radius: 0.3rem;
+}
+
+.results-jurisdiction-list {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.results-list-search-rates-row {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.results-jurisdiction-list input {
+  font-size: 0.9rem;
+  padding: 0.2rem;
+}
+
+
+.results-jurisdiction-list-item {
+  width: 12rem;
+}
+
+.jurisdiction-level {
+  max-width: 8rem;
+}
+
+.jurisdiction-name {
+  width: 15rem;
+}
+.jurisdiction-name input {
+  width: 12rem;
+}
+
+.jurisdiction-rate input {
+  width: 6rem;
+}
+
+/*************************************************************
+COPY BUTTONS
+*************************************************************/
+
+.btn-copy-input {
+  color: white;
+  background-color: transparent;
+  height: 1.3rem;
+  width: 1.3rem;
+  border: 1px solid gray;
+  border-radius: 0.2rem;
+  background-image: url('../images/copy.png');
+  background-size: 1rem 1rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.btn-copy-input:focus,
+.btn-copy-input:hover {
+  border: 2px solid royalblue;
+  border-radius: 0.2rem;
+  outline: none;
+}
+
+.btn-copy-input > .tooltiptext {
+  visibility: hidden;
+  background-color: gray;
+  color: white; 
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+
+  /* Position the tooltip */
+  position: absolute; 
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+}
+
+.btn-copy-input:focus .tooltiptext,
+.btn-copy-input:hover .tooltiptext {
+  visibility: visible;
+  border-radius: 0.2rem;
+  outline: none;
+}
+
+.tooltiptext:focus,
+.tooltiptext:hover {
+  outline: none;
+}
+
+/*************************************************************
+MAPS
+*************************************************************/
+
+.google-map {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#map {
+  height: 20rem;
+  max-height: 20rem;
+  width: 20rem;
+  max-width: 20rem;
+  border: 1px solid royalblue;
+  border-radius: 0.3rem;
+}
+
+/*************************************************************
+FOOTER
+*************************************************************/
+.footer {
+  width: 100%;
+  border-top: 1px solid gray;
+  background: white;
+  text-align: center;
+  font-size: 0;
+  padding-top: 2rem;
+  min-height: 20%;
+  height: auto !important;
+  height: 20%;
+
+
+  /* margin: 0 auto -800px; the bottom margin is the negative value of the footer's height */
+  flex-shrink: 0;
+}
+
+.footer, .div-for-sticky-footer {
+  /* height: 800px; .div-for-sticky-footer must be the same height as footer */
+}
+
+.footer p {
+  font-size: 0.8rem;
+}
+
+/*************************************************************
+MEDIA QUERIES
+*************************************************************/
+
+/*small phone*/
+@media only screen and (max-width: 321px) {
+  #map {
+    height: 18rem;
+    max-height: 18rem;
+    width: 18rem;
+    max-width: 18rem;
+  }
+}
+
+/*small to medium phone*/
+@media only screen and (max-width: 376px) {
+  header h1 {
+    font-size: 1.7rem;
+  }
+}
+
+/*up to large phone, small tablet*/
+@media only screen and (max-width: 650px) {
+  .results-jurisdiction-list-item,
+  .jurisdiction-level,
+  .jurisdiction-name,
+  .jurisdiction-rate {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .jurisdiction-rate input {
+    width: 12rem;
+  }
+}
+
+/*up to a tablet*/
+@media only screen and (max-width: 769px) {
+  .search-form-submit-button {
+    width: 100%;
+    height: 3rem;
+  }
+
+  .label-input-wrapper {
+    margin-right: 1rem;
+  }
+
+  .search-form input {
+    margin-bottom: 0.5rem;
+  }
+
+  .google-map {
+    margin: 1rem auto 2rem;
+  }
+}

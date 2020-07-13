@@ -1,0 +1,19 @@
+{
+  "name": "whats-the-sales-tax",
+  "version": "1.0.0",
+  "description": "wep app to find sales tax rates",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Singhurse",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "taxjar": "^2.0.1"
+  }
+}

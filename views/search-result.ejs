@@ -1,0 +1,80 @@
+<li class="results-list-item">
+  <div class="results-input-and-rates-container">
+    <ul class="results-list-search-input">
+      <li class="results-list-item-search-input"><span>Street:</span><% if (addressObject.street) { -%><%= addressObject.street %><% } else { -%>n/a<% } -%></li>
+      <li class="results-list-item-search-input"><span>City:</span><% if (addressObject.city) { -%><%= addressObject.city %><% } else { -%>n/a<% } -%></li>
+      <li class="results-list-item-search-input"><span>State:</span><% if (addressObject.state) { -%><%= addressObject.state %><% } else { -%>n/a<% } -%></li> 
+      <li class="results-list-item-search-input"><span>Zip:</span><% if (addressObject.zip) { -%><%= addressObject.zip %><% } else { -%>n/a<% } -%></li>
+    </ul>
+    <ul class="results-list-search-rates">
+      <li>
+        <ul class="results-jurisdiction-list total">
+          <li class="results-jurisdiction-list-item jurisdiction-level">Total Rate</li>
+          <li class="results-jurisdiction-list-item jurisdiction-name">
+
+          </li>
+          <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <input id="rate-total<%= searchId %>" type="text" value="<%= rateObject.rate.combined_rate %>" aria-label="The county rate is <%= rateObject.rate.combined_rate %>" readonly >
+            <button type="button" data-clipboard-target="#rate-total<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="results-jurisdiction-list state">
+          <li class="results-jurisdiction-list-item jurisdiction-level">State</li>
+          <li class="results-jurisdiction-list-item jurisdiction-name">
+            <input id="name-state<%= searchId %>" type="text" value="<%= rateObject.rate.state %>" aria-label="The jurisdiction name is <%= rateObject.rate.state %>" readonly >
+            <button type="button" data-clipboard-target="#name-state<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+          <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <input id="rate-state<%= searchId %>" type="text" value="<%= rateObject.rate.state_rate %>" aria-label="The state rate is <%= rateObject.rate.state_rate %>" readonly >
+            <button type="button" data-clipboard-target="#rate-state<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="results-jurisdiction-list county">
+          <li class="results-jurisdiction-list-item jurisdiction-level">County</li>
+          <li class="results-jurisdiction-list-item jurisdiction-name">
+            <input id="name-county<%= searchId %>" type="text" value="<%= rateObject.rate.county %>" aria-label="The jurisdiction name is <%= rateObject.rate.county %>" readonly >
+            <button type="button" data-clipboard-target="#name-county<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+          <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <input id="rate-county<%= searchId %>" type="text" value="<%= rateObject.rate.county_rate %>" aria-label="The county rate is <%= rateObject.rate.county_rate %>" readonly >
+            <button type="button" data-clipboard-target="#rate-county<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="results-jurisdiction-list city">
+          <li class="results-jurisdiction-list-item jurisdiction-level">City</li>
+          <li class="results-jurisdiction-list-item jurisdiction-name">
+            <input id="name-city<%= searchId %>" type="text" value="<%= rateObject.rate.city %>" aria-label="The jurisdiction name is <%= rateObject.rate.city %>" readonly >
+            <button type="button" data-clipboard-target="#name-city<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+          <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <input id="rate-city<%= searchId %>" type="text" value="<%= rateObject.rate.city_rate %>" aria-label="The city rate is <%= rateObject.rate.city_rate %>" readonly >
+            <button type="button" data-clipboard-target="#rate-city<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="results-jurisdiction-list district">
+          <li class="results-jurisdiction-list-item jurisdiction-level">Districts</li>
+          <li class="results-jurisdiction-list-item jurisdiction-name">
+
+          </li>
+          <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <input id="rate-combined-district<%= searchId %>" type="text" value="<%= rateObject.rate.combined_district_rate %>" aria-label="The combined-district rate is <%= rateObject.rate.combined_district_rate %>" readonly >
+            <button type="button" data-clipboard-target="#rate-combined-district<%= searchId %>" class="btn-copy-input js-btn-copy-input" aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.<span class="tooltiptext">Copy</span></button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="google-map" aria-label="google map with pin on the sales location">
+    <div id="map">
+    
+    </div>
+  </div>
+</li>
