@@ -15,10 +15,6 @@ app.use(morgan('common'));
 const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
 app.use('/api/rates', ratesRouter);
 
 app.use(function(req, res) {
