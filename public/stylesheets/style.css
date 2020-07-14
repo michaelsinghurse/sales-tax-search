@@ -76,7 +76,7 @@ main {
   flex: 1 0 auto;
 }
 
-.section-user-input {
+.form-container {
   width: 95%;
   max-width: 60rem;
   margin-left: auto;
@@ -176,21 +176,21 @@ main {
 /*************************************************************
 SEARCH RESULT LIST
 *************************************************************/
-.section-search-results {
+.results-container {
   width: 95%;
   max-width: 60rem;
   margin-left: auto;
   margin-right: auto;
 }
 
-.results-list {
+.results {
   margin-left: auto;
   margin-right: auto;
   list-style-type: none;
   padding-left: 0;
 }
 
-.results-list-item {
+.results > li {
   background-color: white;
   border: 1px solid gray;
   box-shadow: 3px 3px gray;
@@ -203,25 +203,25 @@ SEARCH RESULT LIST
   flex-wrap: wrap;
 }
 
-.results-input-and-rates-container {
+.input-and-rates-container {
   margin-bottom: 1rem;
   margin-top: 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
-.results-list-search-input {
+.results-input {
   list-style-type: none;
   padding-left: 0;
   font-size: 1.1rem;
 }
 
-.results-list-search-input li {
+.results-input li {
   font-weight: 400;
   padding-left: 0rem;
 }
 
-.results-list-item-search-input > span {
+.results-input span {
   display: inline-block;
   width: 5rem;
 }
@@ -230,7 +230,7 @@ SEARCH RESULT LIST
 JURISDICTIONS & RATES
 *************************************************************/
 
-.results-list-search-rates {
+.results-rates {
   list-style-type: none;
   padding: 0.5rem;
   margin-top: 1rem;
@@ -238,7 +238,7 @@ JURISDICTIONS & RATES
   border-radius: 0.3rem;
 }
 
-.results-jurisdiction-list {
+.jurisdiction-list {
   list-style-type: none;
   padding-left: 0;
   display: flex;
@@ -246,20 +246,7 @@ JURISDICTIONS & RATES
   flex-wrap: wrap;
 }
 
-.results-list-search-rates-row {
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
-}
-
-.results-jurisdiction-list input {
-  font-size: 0.9rem;
-  padding: 0.2rem;
-}
-
-
-.results-jurisdiction-list-item {
+.jurisdiction-list > li {
   width: 12rem;
 }
 
@@ -268,10 +255,17 @@ JURISDICTIONS & RATES
 }
 
 .jurisdiction-name {
-  width: 15rem;
+  max-width: 15rem;
+} 
+
+.jurisdiction-name input,
+.jurisdiction-rate input {
+  font-size: 0.9rem;
+  padding: 0.2rem;
 }
+
 .jurisdiction-name input {
-  width: 12rem;
+  width: 10rem;
 }
 
 .jurisdiction-rate input {
@@ -282,7 +276,7 @@ JURISDICTIONS & RATES
 COPY BUTTONS
 *************************************************************/
 
-.btn-copy-input {
+.btn-copy {
   color: white;
   background-color: transparent;
   height: 1.3rem;
@@ -297,14 +291,14 @@ COPY BUTTONS
   position: relative;
 }
 
-.btn-copy-input:focus,
-.btn-copy-input:hover {
+.btn-copy:focus,
+.btn-copy:hover {
   border: 2px solid royalblue;
   border-radius: 0.2rem;
   outline: none;
 }
 
-.btn-copy-input > .tooltiptext {
+.btn-copy > .tooltiptext {
   visibility: hidden;
   background-color: gray;
   color: white; 
@@ -318,8 +312,8 @@ COPY BUTTONS
   left: 50%;
 }
 
-.btn-copy-input:focus .tooltiptext,
-.btn-copy-input:hover .tooltiptext {
+.btn-copy:focus .tooltiptext,
+.btn-copy:hover .tooltiptext {
   visibility: visible;
   border-radius: 0.2rem;
   outline: none;
@@ -334,7 +328,7 @@ COPY BUTTONS
 MAPS
 *************************************************************/
 
-.google-map {
+.map-container {
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
@@ -398,7 +392,7 @@ MEDIA QUERIES
 
 /*up to large phone, small tablet*/
 @media only screen and (max-width: 650px) {
-  .results-jurisdiction-list-item,
+  .jurisdiction-list > li,
   .jurisdiction-level,
   .jurisdiction-name,
   .jurisdiction-rate {
@@ -406,6 +400,7 @@ MEDIA QUERIES
     width: 100%;
   }
 
+  .jurisdiction-name input,
   .jurisdiction-rate input {
     width: 12rem;
   }
@@ -426,7 +421,7 @@ MEDIA QUERIES
     margin-bottom: 0.5rem;
   }
 
-  .google-map {
+  .map-container {
     margin: 1rem auto 2rem;
   }
 }

@@ -19,7 +19,7 @@
     </nav>
   </header>
   <main role="main">
-    <section class="section-user-input">
+    <section class="form-container">
       <form action="#" method="post" class="search-form js-search-form">
         <fieldset>
           <legend>Enter Your Sales Location</legend>
@@ -45,8 +45,8 @@
         <button type="submit" class="search-form-submit-button">Find Rates</button>
       </form>
     </section>
-    <section class="section-search-results">
-      <ul class="results-list js-results-list" aria-live="assertive" hidden>
+    <section class="results-container">
+      <ul class="results" aria-live="assertive" hidden>
         
       </ul>
     </section>
@@ -59,39 +59,38 @@
   </footer>
   
   <script id="searchResult" type="text/x-handlebars-template">
-    <li class="results-list-item">
-      <div class="results-input-and-rates-container">
-        <ul class="results-list-search-input">
-          <li class="results-list-item-search-input">
+    <li id="search{{ inputs.searchId }}">
+      <div class="input-and-rates-container">
+        <ul class="results-input">
+          <li>
             <span>Street:</span>
             {{ inputs.street }} 
           </li>
-          <li class="results-list-item-search-input">
+          <li>
             <span>City:</span>
             {{ inputs.city }} 
           </li>
-          <li class="results-list-item-search-input">
+          <li>
             <span>State:</span>
             {{ inputs.state }} 
           </li> 
-          <li class="results-list-item-search-input">
+          <li>
             <span>Zip:</span>
             {{ inputs.zip }} 
           </li>
         </ul>
-        <ul class="results-list-search-rates">
+        <ul class="results-rates">
           <li>
-            <ul class="results-jurisdiction-list total">
-              <li class="results-jurisdiction-list-item jurisdiction-level">Total Rate</li>
-              <li class="results-jurisdiction-list-item jurisdiction-name"> </li>
-              <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">Total Rate</li>
+              <li class="jurisdiction-name"> </li>
+              <li class="jurisdiction-rate">
                 <input id="rate-total{{ inputs.searchId }}" type="text" 
                   value="{{ rates.combined_rate }}" 
                   aria-label="The county rate is {{ rates.combined_rate }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#rate-total{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
@@ -99,28 +98,26 @@
             </ul>
           </li>
           <li>
-            <ul class="results-jurisdiction-list state">
-              <li class="results-jurisdiction-list-item jurisdiction-level">State</li>
-              <li class="results-jurisdiction-list-item jurisdiction-name">
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">State</li>
+              <li class="jurisdiction-name">
                 <input id="name-state{{ inputs.searchId }}" type="text" 
                   value="{{ rates.state }}" 
                   aria-label="The jurisdiction name is {{ rates.state }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#name-state{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
               </li>
-              <li class="results-jurisdiction-list-item jurisdiction-rate">
+              <li class="jurisdiction-rate">
                 <input id="rate-state{{ inputs.searchId }}" type="text" 
                   value="{{ rates.state_rate }}" 
                   aria-label="The state rate is {{ rates.state_rate }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#rate-state{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
@@ -128,28 +125,26 @@
             </ul>
           </li>
           <li>
-            <ul class="results-jurisdiction-list county">
-              <li class="results-jurisdiction-list-item jurisdiction-level">County</li>
-              <li class="results-jurisdiction-list-item jurisdiction-name">
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">County</li>
+              <li class="jurisdiction-name">
                 <input id="name-county{{ inputs.searchId }}" type="text" 
                   value="{{ rates.county }}" 
                   aria-label="The jurisdiction name is {{ rates.county }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#name-county{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
               </li>
-              <li class="results-jurisdiction-list-item jurisdiction-rate">
+              <li class="jurisdiction-rate">
                 <input id="rate-county{{ inputs.searchId }}" type="text" 
                   value="{{ rates.county_rate }}" 
                   aria-label="The county rate is {{ rates.county_rate }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#rate-county{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
@@ -157,28 +152,26 @@
             </ul>
           </li>
           <li>
-            <ul class="results-jurisdiction-list city">
-              <li class="results-jurisdiction-list-item jurisdiction-level">City</li>
-              <li class="results-jurisdiction-list-item jurisdiction-name">
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">City</li>
+              <li class="jurisdiction-name">
                 <input id="name-city{{ inputs.searchId }}" type="text" 
                   value="{{ rates.city }}" 
                   aria-label="The jurisdiction name is {{ rates.city }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#name-city{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
               </li>
-              <li class="results-jurisdiction-list-item jurisdiction-rate">
+              <li class="jurisdiction-rate">
                 <input id="rate-city{{ inputs.searchId }}" type="text" 
                   value="{{ rates.city_rate }}" 
                   aria-label="The city rate is {{ rates.city_rate }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#rate-city{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
@@ -186,17 +179,16 @@
             </ul>
           </li>
           <li>
-            <ul class="results-jurisdiction-list district">
-              <li class="results-jurisdiction-list-item jurisdiction-level">Districts</li>
-              <li class="results-jurisdiction-list-item jurisdiction-name"> </li>
-              <li class="results-jurisdiction-list-item jurisdiction-rate">
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">Districts</li>
+              <li class="jurisdiction-name"> </li>
+              <li class="jurisdiction-rate">
                 <input id="rate-combined-district{{ inputs.searchId }}" type="text" 
                   value="{{ rates.combined_district_rate }}" 
                   aria-label="The combined-district rate is {{ rates.combined_district_rate }}" 
                   readonly />
-                <button type="button" 
+                <button type="button" class="btn-copy" 
                   data-clipboard-target="#rate-combined-district{{ inputs.searchId }}" 
-                  class="btn-copy-input js-btn-copy-input" 
                   aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
                   <span class="tooltiptext">Copy</span>
                 </button>
@@ -205,7 +197,7 @@
           </li>
         </ul>
       </div>
-      <div class="google-map" aria-label="google map with pin on the sales location">
+      <div class="map-container" aria-label="google map with pin on the sales location">
         <div id="map"> </div>
       </div>
     </li>
@@ -244,7 +236,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js">
   </script>
   <script type="text/javascript" src="./javascripts/handlebars-v4.7.6.js">
   </script>
