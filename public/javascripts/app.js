@@ -1,10 +1,16 @@
 "use strict";
 
 let App = {
+  resultsTemplate: null,
+
   bindListeners() {
     $(".js-search-form").on("submit", this.handleFormSubmit.bind(this));
   },
   
+  compileHtmlTemplates() {
+    this.resultsTemplate = Handlebars.compile($("#searchResult").html());
+  },
+
   getSearchId: (function() {
     let count = 0;
     return function() {
@@ -12,8 +18,29 @@ let App = {
       return count;
     };
   })(),
-
+  
   getSearchResultsFromServer(inputs) {
+    let settings = {
+      method: "GET",
+      url: "/api/rates",
+      data: inputs,
+      dataType: "json",
+    };
+
+    $.ajax(settings)
+      .done(data => {
+        //console.log(data);
+        //console.log(typeof data);
+        this.renderHtmlFromServer(data, inputs);
+        this.instantiateAndHandleCopyButtons();
+        this.insertGoogleMapOfAddress(inputs);
+      })
+      .fail((_jqXHR, textStatus) => {
+        console.log(textStatus);
+      });
+  },
+
+  xgetSearchResultsFromServer(inputs) {
     let settings = {
       method: "GET",
       url: "/api/rates",
@@ -28,7 +55,9 @@ let App = {
         this.insertGoogleMapOfAddress(inputs); 
       }) 
       .fail((_jqXHR, textStatus) => {
-        let errorMessage = "<p>Request failed: Unable to retrieve rates from server. Please check the address and try again.</p>";
+        let errorMessage = "<p>Request failed: " + 
+          "Unable to retrieve rates from server. " + 
+          "Please check the address and try again.</p>";
         this.renderHtmlFromServer(errorMessage);
       });
   },
@@ -52,28 +81,26 @@ let App = {
 
   init() {
     this.bindListeners();
+    this.compileHtmlTemplates();
   },
 
-  insertGoogleMapOfAddress(searchObject) {
-    const street = searchObject.street;
-    const city = searchObject.city;
-    const state = searchObject.state;
-
-    const geocoder = new google.maps.Geocoder();
+  insertGoogleMapOfAddress(inputs) {
     const geocoderRequestObject = {
-      address: street + ', ' + city + ', ' + state,
+      address: inputs.street + ', ' + inputs.city + ', ' + inputs.state,
       componentRestrictions: {
-        country: searchObject.country,
-        postalCode: searchObject.zip
+        country: inputs.country,
+        postalCode: inputs.zip,
       }
     };
 
+    const geocoder = new google.maps.Geocoder();
     geocoder.geocode(geocoderRequestObject, (results, status) => {
       if (status == 'OK') {
         this.renderGoogleMapAtLatLng(results[0].geometry.location);
       } else {
-        //console.log('Geocoder Error!');
-        $('#map').html('<p>Unable to load map for address given. Please check the address and try again.</p>');
+        let errorMsg = "<p>Unable to load map for address given. " +
+          "Please check the address and try again.</p>";
+        $('#map').html(errorMsg);
       }
     });
   },
@@ -95,7 +122,17 @@ let App = {
     });
   },
 
-  renderHtmlFromServer(htmlString) {
+  renderHtmlFromServer(rates, inputs) {
+    let $resultsList = $(".js-results-list");
+    if ($resultsList.children().length === 0) {
+      $resultsList.prop("hidden", false).html(this.resultsTemplate({ rates, inputs }));
+    }
+    else {
+      $resultsList.prepend(this.resultsTemplate({ rates, inputs }));
+    }
+  },
+
+  xrenderHtmlFromServer(htmlString) {
     let $resultsList = $(".js-results-list");
     if ($resultsList.children().length === 0) {
       $resultsList.prop("hidden", false).html(htmlString);
