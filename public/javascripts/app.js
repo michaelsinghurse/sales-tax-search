@@ -19,47 +19,24 @@ let App = {
     };
   })(),
   
-  getSearchResultsFromServer(inputs) {
-    let settings = {
-      method: "GET",
-      url: "/api/rates",
-      data: inputs,
-      dataType: "json",
-    };
+  getRatesFromServer(inputs) {
+    return new Promise((resolve, reject) => {
+      let settings = {
+        method: "GET",
+        url: "/api/rates",
+        data: inputs,
+        dataType: "json",
+      };
 
-    $.ajax(settings)
-      .done(data => {
-        //console.log(data);
-        //console.log(typeof data);
-        this.renderHtmlFromServer(data, inputs);
-        this.instantiateAndHandleCopyButtons();
-        this.insertGoogleMapOfAddress(inputs);
-      })
-      .fail((_jqXHR, textStatus) => {
-        console.log(textStatus);
-      });
-  },
-
-  xgetSearchResultsFromServer(inputs) {
-    let settings = {
-      method: "GET",
-      url: "/api/rates",
-      data: inputs,
-      dataType: "html"
-    };
-
-    $.ajax(settings)
-      .done(data => {
-        this.renderHtmlFromServer(data);
-        this.instantiateAndHandleCopyButtons();
-        this.insertGoogleMapOfAddress(inputs); 
-      }) 
-      .fail((_jqXHR, textStatus) => {
-        let errorMessage = "<p>Request failed: " + 
-          "Unable to retrieve rates from server. " + 
-          "Please check the address and try again.</p>";
-        this.renderHtmlFromServer(errorMessage);
-      });
+      $.ajax(settings)
+        .done(data => {
+          resolve(data);
+        })
+        .fail((_jqXHR, textStatus) => {
+          // TODO: return a more helpful error message
+          reject(textStatus);
+        });
+    });
   },
 
   handleFormSubmit(event) {
@@ -76,7 +53,13 @@ let App = {
 
     event.currentTarget.reset();
 
-    this.getSearchResultsFromServer(inputs);
+    this.getRatesFromServer(inputs)
+      .then(rates => {
+        this.renderSearchResults(inputs, rates);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
 
   init() {
@@ -104,9 +87,17 @@ let App = {
       }
     });
   },
-
-  instantiateAndHandleCopyButtons() {
-    const clipboard = new Clipboard(".js-btn-copy-input");
+  
+  instantiateCopyButtons(id) {
+    const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
+    // TODO: remove the following
+    // TODO: change text in tooltip to "Copied!", set timeout for 5 seconds,
+    // and then change back to "Copy"
+    clipboard.on("success", event => {
+      console.log("Action:", event.action);
+      console.log("Text:", event.text);
+      console.log("Trigger:", event.trigger);
+    });
   },
 
   renderGoogleMapAtLatLng(addressLatLng) {
@@ -122,8 +113,8 @@ let App = {
     });
   },
 
-  renderHtmlFromServer(rates, inputs) {
-    let $resultsList = $(".js-results-list");
+  renderHtmlFromServer(inputs, rates) {
+    let $resultsList = $(".results");
     if ($resultsList.children().length === 0) {
       $resultsList.prop("hidden", false).html(this.resultsTemplate({ rates, inputs }));
     }
@@ -132,14 +123,10 @@ let App = {
     }
   },
 
-  xrenderHtmlFromServer(htmlString) {
-    let $resultsList = $(".js-results-list");
-    if ($resultsList.children().length === 0) {
-      $resultsList.prop("hidden", false).html(htmlString);
-    }
-    else {
-      $resultsList.prepend(htmlString);
-    }
+  renderSearchResults(inputs, rates) {
+    this.renderHtmlFromServer(inputs, rates);
+    this.instantiateCopyButtons(inputs.searchId);
+    this.insertGoogleMapOfAddress(inputs);
   },
 };
 
