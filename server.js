@@ -8,8 +8,6 @@ const ratesRouter = require('./routes/ratesRouter');
 const app = express();
 
 app.set("port", process.env.PORT || 8080);
-app.set("views", path.resolve(__dirname, 'views'));
-app.set("view engine", "ejs");
 
 app.use(morgan("common"));
 app.use(express.static(path.join(__dirname, "public")));
