@@ -11,6 +11,27 @@ let App = {
     this.resultsTemplate = Handlebars.compile($("#searchResult").html());
   },
 
+  getMapGeocode(inputs) {
+    return new Promise((resolve, reject) => {
+      let request = {
+        address: inputs.street + ', ' + inputs.city + ', ' + inputs.state,
+        componentRestrictions: {
+          country: inputs.country,
+          postalCode: inputs.zip,
+        }
+      };
+
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode(request, (results, status) => {
+        if (status === "OK") {
+          resolve(results[0].geometry.location);
+        } else {
+          reject();
+        }
+      });
+    });
+  },
+  
   getSearchId: (function() {
     let count = 0;
     return function() {
@@ -67,27 +88,29 @@ let App = {
     this.compileHtmlTemplates();
   },
 
-  insertGoogleMapOfAddress(inputs) {
-    const geocoderRequestObject = {
-      address: inputs.street + ', ' + inputs.city + ', ' + inputs.state,
-      componentRestrictions: {
-        country: inputs.country,
-        postalCode: inputs.zip,
-      }
-    };
+  insertMap(inputs) {
+    let $map = $(`#search${inputs.searchId} .map`);
+    
+    this.getMapGeocode(inputs)
+      .then(geocode => {
+        let map = new google.maps.Map($map.get(0), {
+          center: geocode,
+          zoom: 10
+        });
 
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode(geocoderRequestObject, (results, status) => {
-      if (status == 'OK') {
-        this.renderGoogleMapAtLatLng(results[0].geometry.location);
-      } else {
-        let errorMsg = "<p>Unable to load map for address given. " +
-          "Please check the address and try again.</p>";
-        $('#map').html(errorMsg);
-      }
-    });
+        let marker = new google.maps.Marker({
+          position: geocode,
+          map,
+          title: "Sales Location",
+        });
+      })
+      .catch(() => {
+        let img = document.createElement("img");
+        img.setAttribute("src", "./images/map-error.png");
+        $map.html(img);
+      });
   },
-  
+
   instantiateCopyButtons(id) {
     const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
     // TODO: remove the following
@@ -97,19 +120,6 @@ let App = {
       console.log("Action:", event.action);
       console.log("Text:", event.text);
       console.log("Trigger:", event.trigger);
-    });
-  },
-
-  renderGoogleMapAtLatLng(addressLatLng) {
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: addressLatLng,
-      zoom: 10
-    });
-
-    const marker = new google.maps.Marker({
-      position: addressLatLng,
-      map,
-      title: "Sales Location",
     });
   },
 
@@ -126,7 +136,7 @@ let App = {
   renderSearchResults(inputs, rates) {
     this.renderHtmlFromServer(inputs, rates);
     this.instantiateCopyButtons(inputs.searchId);
-    this.insertGoogleMapOfAddress(inputs);
+    this.insertMap(inputs);
   },
 };
 
