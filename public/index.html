@@ -12,37 +12,37 @@
   <header role="banner">
     <nav>
       <ul class="navbar-list">
-        <li class="navbar-list-item navbar-logo"><a href="#">Sales Tax Rates</a></li>
-        <li class="navbar-list-item"><a href="#">About</a></li>
-        <li class="navbar-list-item"><a href="#">Log In</a></li>
+        <li><a href="#">Sales Tax Rates</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Log In</a></li>
       </ul>
     </nav>
   </header>
   <main role="main">
     <section class="form-container">
-      <form action="#" method="post" class="search-form js-search-form">
+      <form action="#" method="get" class="search-form">
         <fieldset>
           <legend>Enter Your Sales Location</legend>
-          <div class="form-input-wrapper">
-            <div class="label-input-wrapper">
+          <ul> 
+            <li>
               <label for="street" class="label-street">Street:</label>
               <input id="street" type="text" class="input-street">
-            </div>
-            <div class="label-input-wrapper">
+            </li>
+            <li>
               <label for="city">City:</label>
               <input id="city" type="text" class="input-city">
-            </div>
-            <div class="label-input-wrapper">
+            </li>
+            <li>
               <label for="state">State:</label>
               <input id="state" type="text" class="input-state">
-            </div>
-            <div class="label-input-wrapper">
+            </li>
+            <li>
               <label for="zip">Zip:</label>
               <input id="zip" type="text" class="input-zip" pattern="[0-9]{5}" required>
-            </div>
-          </div>
+            </li>
+          </ul> 
         </fieldset>
-        <button type="submit" class="search-form-submit-button">Find Rates</button>
+        <button type="submit">Find Rates</button>
       </form>
     </section>
     <section class="results-container">
