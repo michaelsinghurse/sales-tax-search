@@ -329,8 +329,7 @@ MAPS
 *************************************************************/
 
 .map-container {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .map {
@@ -338,7 +337,7 @@ MAPS
   max-height: 20rem;
   width: 20rem;
   max-width: 20rem;
-  border: 1px solid royalblue;
+  border: 1px solid gray;
   border-radius: 0.3rem;
   overflow: hidden;
 }
@@ -351,28 +350,17 @@ MAPS
 /*************************************************************
 FOOTER
 *************************************************************/
-.footer {
+footer {
   width: 100%;
   border-top: 1px solid gray;
   background: white;
   text-align: center;
-  font-size: 0;
-  padding-top: 2rem;
-  min-height: 20%;
-  height: auto !important;
-  height: 20%;
-
-
-  /* margin: 0 auto -800px; the bottom margin is the negative value of the footer's height */
-  flex-shrink: 0;
+  padding: 20px 0;
 }
 
-.footer, .div-for-sticky-footer {
-  /* height: 800px; .div-for-sticky-footer must be the same height as footer */
-}
-
-.footer p {
+footer p {
   font-size: 0.8rem;
+  margin: 10px 0;
 }
 
 /*************************************************************
