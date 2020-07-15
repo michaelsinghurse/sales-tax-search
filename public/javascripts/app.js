@@ -113,13 +113,21 @@ let App = {
 
   instantiateCopyButtons(id) {
     const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
-    // TODO: remove the following
-    // TODO: change text in tooltip to "Copied!", set timeout for 5 seconds,
-    // and then change back to "Copy"
+
     clipboard.on("success", event => {
-      console.log("Action:", event.action);
-      console.log("Text:", event.text);
-      console.log("Trigger:", event.trigger);
+      let $tooltip = $(event.trigger).find(".tooltiptext");
+      $tooltip.text("Copied!");
+      setTimeout(() => {
+        $tooltip.text("Copy");
+      }, 3 * 1000);
+    });
+
+    clipboard.on("error", event => {
+      let $tooltip = $(event.target).find(".tooltiptext");
+      $tooltip.text("Press Ctrl+C to copy");
+      setTimeout(() => {
+        $tooltip.text("Copy");
+      }, 3 * 1000);
     });
   },
 
