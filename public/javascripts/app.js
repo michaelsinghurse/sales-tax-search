@@ -4,7 +4,7 @@ let App = {
   resultsTemplate: null,
 
   bindListeners() {
-    $(".js-search-form").on("submit", this.handleFormSubmit.bind(this));
+    $(".search-form").on("submit", this.handleFormSubmit.bind(this));
   },
   
   compileHtmlTemplates() {
