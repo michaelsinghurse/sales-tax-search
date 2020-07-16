@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const express = require('express');
 const taxjar = require('taxjar');
 
@@ -66,7 +67,7 @@ router.get('/', (req, res) => {
   // original code
   /*
   const client = new taxjar({
-    apiKey: process.env.TAXJAR_API_KEY
+    apiKey: process.env.TAXJAR_KEY
   });
 
   client.ratesForLocation(addressObject.zip, {
