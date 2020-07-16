@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
@@ -7,7 +8,7 @@ const ratesRouter = require('./routes/ratesRouter');
 
 const app = express();
 
-app.set("port", process.env.PORT || 8080);
+app.set("port", process.env.PORT);
 
 app.use(morgan("common"));
 app.use(express.static(path.join(__dirname, "public")));
