@@ -37,34 +37,7 @@ router.get('/', (req, res) => {
 
   res.json(data.rate);
 
-  // temporary code - Mon 7/13/20
-  /*
-  let data = {
-    rate: {
-      zip: "54155",
-      country: "US",
-      country_rate: "0.0",
-      state: "WI",
-      state_rate: 0.05,
-      county: "BROWN",
-      county_rate: 0.005,
-      city: "HOBART",
-      city_rate: 0.0,
-      combined_district_rate: 0.001,
-      combined_rate: 0.056,
-      freight_taxable: true,
-    },
-  };
-
-  res.type("text");
-  res.render("search-result", {
-    addressObject,
-    searchId,
-    rateObject: data,
-  });
-  */
-
-  // original code
+  // original code using EJS templates
   /*
   const client = new taxjar({
     apiKey: process.env.TAXJAR_KEY
