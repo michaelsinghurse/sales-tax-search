@@ -12,6 +12,10 @@ app.set("port", process.env.PORT);
 
 app.use(morgan("common"));
 app.use(express.static(path.join(__dirname, "public")));
+
+// allow client to access node_modules folder
+app.use("/scripts", express.static(path.join(__dirname, "node_modules")));
+
 app.use("/api/rates", ratesRouter);
 
 app.use(function(req, res) {
