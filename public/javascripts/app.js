@@ -86,6 +86,7 @@ let App = {
   init() {
     this.bindListeners();
     this.compileHtmlTemplates();
+    this.loadMapsApi();
   },
 
   insertMap(inputs) {
@@ -129,6 +130,25 @@ let App = {
         $tooltip.text("Copy");
       }, 3 * 1000);
     });
+  },
+  
+  loadMapsApi() {
+    let settings = {
+      url: "/api/mapsKey",
+      method: "GET",
+      dataType: "text",
+    };
+
+    $.ajax(settings)
+      .done(data => {
+        let script = document.createElement("script");
+        script.src = "https://maps.googleapis.com/maps/api/js?key=" + data;
+        document.head.appendChild(script);
+      })
+      .fail((_jqXHR, _textStatus, errorThrown) => {
+        console.log("Unable to load Google Maps.");
+        console.log(errorThrown); // TEMP
+      });
   },
 
   renderHtmlFromServer(inputs, rates) {

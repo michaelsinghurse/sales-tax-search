@@ -18,6 +18,10 @@ app.use("/scripts", express.static(path.join(__dirname, "node_modules")));
 
 app.use("/api/rates", ratesRouter);
 
+app.get("/api/mapsKey", function(req, res) {
+  res.send(process.env.MAPS_KEY);
+});
+
 app.use(function(req, res) {
   res.status(404).send("Page not found!");
 });
