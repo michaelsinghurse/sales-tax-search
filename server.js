@@ -9,6 +9,8 @@ const ratesRouter = require('./routes/ratesRouter');
 const app = express();
 
 app.set("port", process.env.PORT);
+app.set("views", "./views");
+app.set("view engine", "hbs");
 
 app.use(morgan("common"));
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -20,6 +22,10 @@ app.use("/api/rates", ratesRouter);
 
 app.get("/api/mapsKey", function(req, res) {
   res.send(process.env.MAPS_KEY);
+});
+
+app.use("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.use(function(req, res) {

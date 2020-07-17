@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <title>Sales Tax Rates</title>
+  <meta name="viewport" content="width=device-width initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="images/favicon.jpg">
+  <link rel="stylesheet" href="stylesheets/normalize.css" />
+  <link rel="stylesheet" href="stylesheets/style.css"/>
+</head>
+<body>
+  <header role="banner">
+    <nav>
+      <ul class="navbar-list">
+        <li><a href="#">Sales Tax Rates</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Log In</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main role="main">
+    <div id="notfound">
+      <h1>Error 404 - Page Not Found!</h1>
+      <p>The page at "/foo" does not exist on this site.</p>
+    </div>
+    <!--
+    <div id="login">
+      <h1>Sales Tax Rates</h1>
+      <form action="#" method="get">
+        <fieldset>
+          <dl>
+            <dt>Username</dt>
+            <dd><input type="text" required/></dd>
+            <dt>Password</dt>
+            <dd><input type="password" required/></dd>
+          </dl>
+          <button type="submit">Sign in</button>
+        </fieldset>
+      </form>
+    </div>
+    -->
+    <!--
+    <div id="about">
+      <h1>About Sales Tax Rates</h1>
+      <p>I created Sales Tax Rates to help tax preparers with the often tedious 
+      and time consuming task of looking up the tax rates for sales locations.</p>
+
+      <p>Prior to becoming a full-time software developer, I worked as a tax
+      preparer for over three years, and my speciality was sales and use tax
+      compliance. While preparing returns, I would constantly have to go back 
+      to Google and search for something like "sales tax Chicago, IL" or
+      "sales tax rate Denton, TX".</p>
+
+      <p>And in addition to looking up the rate at a given address, it's often
+      helpful to see where that address is on the map. You can see where the
+      location is relative to other taxing jurisdiction boundaries nearby and
+      may need to do more research if it's near a county or city line.</p>
+
+      <p>If you have any feedback about how I can make this site more useful,
+      please reach out to me via email.</p>
+
+      <p>Thanks and all the best to you,</p> 
+
+      <figure>
+        <img src="/images/michael-singhurse.png" alt="Michael Singhurse" />
+      </figure>
+
+      <address>
+        <p>Michael Singhurse</p>
+        <p>
+          <a href="mailto:singhurse@lisieuxresearch.com">singhurse@lisieuxresearch.com</a>
+        </p>
+      </address>
+      <p>P.S. If you're interested in how I built the site, check out the project on  
+        <a href="https://github.com/michaelsinghurse/sales-tax-rates" 
+          target="_blank">GitHub</a>!
+      </p>
+    </div>
+    -->
+    <!--
+    <div id="home">
+      <section class="form-container">
+        <form action="#" method="get" class="search-form">
+          <fieldset>
+            <legend>Enter Your Sales Location</legend>
+            <ul> 
+              <li>
+                <label for="street" class="label-street">Street:</label>
+                <input id="street" type="text" class="input-street">
+              </li>
+              <li>
+                <label for="city">City:</label>
+                <input id="city" type="text" class="input-city">
+              </li>
+              <li>
+                <label for="state">State:</label>
+                <input id="state" type="text" class="input-state">
+              </li>
+              <li>
+                <label for="zip">Zip:</label>
+                <input id="zip" type="text" class="input-zip" pattern="[0-9]{5}" required>
+              </li>
+            </ul> 
+          </fieldset>
+          <button type="submit">Find Rates</button>
+        </form>
+      </section>
+      <section class="results-container">
+        <ul class="results" aria-live="assertive" hidden>
+          
+        </ul>
+      </section>
+    </div>
+    -->
+  </main>
+
+  <footer>
+    <p>&copy; 2020 Michael Singhurse</p> 
+    <p><a href="https://lisieuxresearch.com" 
+      target="_blank">Lisieux Research, LLC</a></p>
+  </footer>
+  
+  <script id="searchResult" type="text/x-handlebars-template">
+    <li id="search{{ inputs.searchId }}">
+      <div class="input-and-rates-container">
+        <ul class="results-input">
+          <li>
+            <span>Street:</span>
+            {{ inputs.street }} 
+          </li>
+          <li>
+            <span>City:</span>
+            {{ inputs.city }} 
+          </li>
+          <li>
+            <span>State:</span>
+            {{ inputs.state }} 
+          </li> 
+          <li>
+            <span>Zip:</span>
+            {{ inputs.zip }} 
+          </li>
+        </ul>
+        <ul class="results-rates">
+          <li>
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">Total Rate</li>
+              <li class="jurisdiction-name"> </li>
+              <li class="jurisdiction-rate">
+                <input id="rate-total{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.combined_rate }}" 
+                  aria-label="The county rate is {{ rates.combined_rate }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#rate-total{{ inputs.searchId }}" 
+                  aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">State</li>
+              <li class="jurisdiction-name">
+                <input id="name-state{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.state }}" 
+                  aria-label="The jurisdiction name is {{ rates.state }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#name-state{{ inputs.searchId }}" 
+                  aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+              <li class="jurisdiction-rate">
+                <input id="rate-state{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.state_rate }}" 
+                  aria-label="The state rate is {{ rates.state_rate }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#rate-state{{ inputs.searchId }}" 
+                  aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">County</li>
+              <li class="jurisdiction-name">
+                <input id="name-county{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.county }}" 
+                  aria-label="The jurisdiction name is {{ rates.county }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#name-county{{ inputs.searchId }}" 
+                  aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+              <li class="jurisdiction-rate">
+                <input id="rate-county{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.county_rate }}" 
+                  aria-label="The county rate is {{ rates.county_rate }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#rate-county{{ inputs.searchId }}" 
+                  aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">City</li>
+              <li class="jurisdiction-name">
+                <input id="name-city{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.city }}" 
+                  aria-label="The jurisdiction name is {{ rates.city }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#name-city{{ inputs.searchId }}" 
+                  aria-label="Copy jurisdiction name to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+              <li class="jurisdiction-rate">
+                <input id="rate-city{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.city_rate }}" 
+                  aria-label="The city rate is {{ rates.city_rate }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#rate-city{{ inputs.searchId }}" 
+                  aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="jurisdiction-list">
+              <li class="jurisdiction-level">Districts</li>
+              <li class="jurisdiction-name"> </li>
+              <li class="jurisdiction-rate">
+                <input id="rate-combined-district{{ inputs.searchId }}" type="text" 
+                  value="{{ rates.combined_district_rate }}" 
+                  aria-label="The combined-district rate is {{ rates.combined_district_rate }}" 
+                  readonly />
+                <button type="button" class="btn-copy" 
+                  data-clipboard-target="#rate-combined-district{{ inputs.searchId }}" 
+                  aria-label="Copy rate to clipboard" data-copied-hint="Copied!">.
+                  <span class="tooltiptext">Copy</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="map-container" aria-label="google map with pin on the sales location">
+        <div class="map"> </div>
+      </div>
+    </li>
+  </script>
+
+  <script id="ratesNotFound" type="text/x-handlebars-template">
+    <li class="results-list-item">
+      <div class="results-input-and-rates-container">
+        <ul class="results-list-search-input">
+          <li class="results-list-item-search-input">
+            <span>Street:</span>
+            {{ inputs.street }}
+          </li>
+          <li class="results-list-item-search-input">
+            <span>City:</span>
+            {{ inputs.city }}
+          </li>
+          <li class="results-list-item-search-input">
+            <span>State:</span>
+            {{ inputs.state }}
+          </li> 
+          <li class="results-list-item-search-input">
+            <span>Zip:</span>
+            {{ inputs.zip }}
+          </li>
+        </ul>
+        <p>An error occurred on the server. Please reload the page and try again.</p>
+        <p>Error detail: {{ error.detail }}</p>
+        <p>Error status: {{ error.status }}</p>
+      </div>
+      <div class="map-container" aria-label="google map with pin on the sales location">
+        <div class="map"> </div>
+      </div>
+    </li>
+  </script>
+
+  <script src="scripts/jquery/dist/jquery.min.js"></script>
+  <script src="scripts/clipboard/dist/clipboard.min.js"></script>
+  <script src="scripts/handlebars/dist/handlebars.min.js"></script>
+  <script src="javascripts/app.js"></script>
+</body>
+</html>
