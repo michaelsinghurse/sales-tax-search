@@ -1,0 +1,28 @@
+<li class="results-list-item">
+  <div class="results-input-and-rates-container">
+    <ul class="results-list-search-input">
+      <li class="results-list-item-search-input">
+        <span>Street:</span>
+        {{ inputs.street }}
+      </li>
+      <li class="results-list-item-search-input">
+        <span>City:</span>
+        {{ inputs.city }}
+      </li>
+      <li class="results-list-item-search-input">
+        <span>State:</span>
+        {{ inputs.state }}
+      </li> 
+      <li class="results-list-item-search-input">
+        <span>Zip:</span>
+        {{ inputs.zip }}
+      </li>
+    </ul>
+    <p>An error occurred on the server. Please reload the page and try again.</p>
+    <p>Error detail: {{ error.detail }}</p>
+    <p>Error status: {{ error.status }}</p>
+  </div>
+  <div class="map-container" aria-label="google map with pin on the sales location">
+    <div class="map"> </div>
+  </div>
+</li>

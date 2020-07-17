@@ -1,0 +1,33 @@
+<div id="home">
+  <section class="form-container">
+    <form action="#" method="get" class="search-form">
+      <fieldset>
+        <legend>Enter Your Sales Location</legend>
+        <ul> 
+          <li>
+            <label for="street" class="label-street">Street:</label>
+            <input id="street" type="text" class="input-street">
+          </li>
+          <li>
+            <label for="city">City:</label>
+            <input id="city" type="text" class="input-city">
+          </li>
+          <li>
+            <label for="state">State:</label>
+            <input id="state" type="text" class="input-state">
+          </li>
+          <li>
+            <label for="zip">Zip:</label>
+            <input id="zip" type="text" class="input-zip" pattern="[0-9]{5}" required>
+          </li>
+        </ul> 
+      </fieldset>
+      <button type="submit">Find Rates</button>
+    </form>
+  </section>
+  <section class="results-container">
+    <ul class="results" aria-live="assertive" hidden>
+      
+    </ul>
+  </section>
+</div>
