@@ -24,8 +24,25 @@ app.get("/api/mapsKey", function(req, res) {
   res.send(process.env.MAPS_KEY);
 });
 
+app.get("/search", function(req, res) {
+  res.render("search");
+});
+
+app.get("/about", function(req, res) {
+  res.render("about");
+});
+
+app.get("/login", function(req, res) {
+  res.render("login");
+});
+
+app.get("/notfound", function(req, res) {
+  res.render("page-not-found");
+});
+
 app.use("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  //res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.render("index", { MAPS_KEY: process.env.MAPS_KEY });
 });
 
 app.use(function(req, res) {

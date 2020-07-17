@@ -7,6 +7,10 @@ let App = {
     $(".search-form").on("submit", this.handleFormSubmit.bind(this));
   },
   
+  bindNavListeners() {
+    $("header a").on("click", this.handleNavClick.bind(this));
+  },
+
   compileHtmlTemplates() {
     this.resultsTemplate = Handlebars.compile($("#searchResult").html());
   },
@@ -82,8 +86,28 @@ let App = {
         console.log(error);
       });
   },
+  
+  handleNavClick(event) {
+    event.preventDefault();
+    let href = $(event.target).attr("href");
+    this.renderPage(href);
+  },
 
   init() {
+    // Note: function is only called when the page is refreshed/loaded
+
+    this.bindNavListeners();
+
+    // this loads the search form
+    if (window.location.pathname === "/") {
+      console.log("triggering click on search anchor...");
+      $("a[href='/search']").trigger("click");
+    }
+
+    // TODO: handle cases where pathname !== "/", e.g. /about, /foo, /login
+  },
+
+  xinit() {
     this.bindListeners();
     this.compileHtmlTemplates();
     this.loadMapsApi();
@@ -159,6 +183,24 @@ let App = {
     else {
       $resultsList.prepend(this.resultsTemplate({ rates, inputs }));
     }
+  },
+  
+  renderPage(href) {
+    let settings = {
+      url: href,
+      method: "GET",
+      dataType: "html",
+    };
+
+    $.ajax(settings)
+      .done(html => {
+        $("main").html(html);
+        this.bindListeners(); 
+      })
+      .fail((_jqXHR, _textStatus, errorThrown) => {
+        console.log("Unable to load page from server.");
+        console.log("Error thrown:", errorThrown); // TEMP 
+      });
   },
 
   renderSearchResults(inputs, rates) {
