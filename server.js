@@ -20,33 +20,26 @@ app.use("/scripts", express.static(path.join(__dirname, "node_modules")));
 
 app.use("/api/rates", ratesRouter);
 
-app.get("/api/mapsKey", function(req, res) {
-  res.send(process.env.MAPS_KEY);
-});
+app.get("/views/:view", function(req, res) {
+  let view = req.params.view;
 
-app.get("/search", function(req, res) {
-  res.render("search");
-});
-
-app.get("/about", function(req, res) {
-  res.render("about");
-});
-
-app.get("/login", function(req, res) {
-  res.render("login");
-});
-
-app.get("/notfound", function(req, res) {
-  res.render("page-not-found");
+  switch (view) {
+    case "search":
+      res.render("search");
+      break;
+    case "about":
+      res.render("about");
+      break;
+    case "login":
+      res.render("login");
+      break;
+    default:
+      res.render("page-not-found", { page: view });
+  }
 });
 
 app.use("/", function(req, res) {
-  //res.sendFile(path.join(__dirname, "public", "index.html"));
   res.render("index", { MAPS_KEY: process.env.MAPS_KEY });
-});
-
-app.use(function(req, res) {
-  res.status(404).send("Page not found!");
 });
 
 app.listen(app.get("port"), () => {
