@@ -7,16 +7,39 @@ const taxjar = require('taxjar');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const addressObject = {
+  const inputs = {
     street: req.query.street,
     city: req.query.city,
     state: req.query.state,
     zip: req.query.zip,
-    country: req.query.country 
+    country: req.query.country, 
+    searchId: req.query.searchId,
   }
 
-  const searchId = req.query.searchId;
-  
+  // temporary code - Tue 7/20/20
+  let data = {
+    rate: {
+      zip: "54155",
+      country: "US",
+      country_rate: "0.0",
+      state: "WI",
+      state_rate: 0.05,
+      county: "BROWN",
+      county_rate: 0.005,
+      city: "HOBART",
+      city_rate: 0.0,
+      combined_district_rate: 0.001,
+      combined_rate: 0.056,
+      freight_taxable: true,
+    },
+  };
+
+  res.render("rates-found", { 
+    rates: data.rate, 
+    inputs, 
+  });
+
+/*
   // temporary code - Tue 7/14/20
   let data = {
     rate: {
@@ -36,7 +59,7 @@ router.get('/', (req, res) => {
   };
 
   res.json(data.rate);
-
+*/
   // original code using EJS templates
   /*
   const client = new taxjar({

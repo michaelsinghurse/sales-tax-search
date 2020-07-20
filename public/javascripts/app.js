@@ -50,7 +50,7 @@ let App = {
         method: "GET",
         url: "/api/rates",
         data: inputs,
-        dataType: "json",
+        dataType: "html",
       };
 
       $.ajax(settings)
@@ -79,8 +79,8 @@ let App = {
     event.currentTarget.reset();
 
     this.getRatesFromServer(inputs)
-      .then(rates => {
-        this.renderSearchResults(inputs, rates);
+      .then(html => {
+        this.renderSearchResults(html, inputs);
       })
       .catch(error => {
         console.log(error);
@@ -175,7 +175,17 @@ let App = {
       });
   },
 
-  renderHtmlFromServer(inputs, rates) {
+  renderHtmlFromServer(html) {
+    let $resultsList = $(".results");
+    if ($resultsList.children().length === 0) {
+      $resultsList.prop("hidden", false).html(html);
+    }
+    else {
+      $resultsList.prepend(html);
+    }
+  },
+
+  xrenderHtmlFromServer(inputs, rates) {
     let $resultsList = $(".results");
     if ($resultsList.children().length === 0) {
       $resultsList.prop("hidden", false).html(this.resultsTemplate({ rates, inputs }));
@@ -202,8 +212,14 @@ let App = {
         console.log("Error thrown:", errorThrown); // TEMP 
       });
   },
+  
+  renderSearchResults(html, inputs) {
+    this.renderHtmlFromServer(html);    
+    this.instantiateCopyButtons(inputs.searchId);
+    this.insertMap(inputs);
+  },
 
-  renderSearchResults(inputs, rates) {
+  xrenderSearchResults(inputs, rates) {
     this.renderHtmlFromServer(inputs, rates);
     this.instantiateCopyButtons(inputs.searchId);
     this.insertMap(inputs);
