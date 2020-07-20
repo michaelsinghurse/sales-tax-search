@@ -2,8 +2,8 @@
 
 let App = {
   bindListeners() {
-    $(".search-form").on("submit", this.handleFormSubmit.bind(this));
-    $("#login form").on("submit", this.handleLoginSubmit.bind(this));
+    $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
+    $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
   },
   
   bindNavListeners() {
@@ -60,7 +60,22 @@ let App = {
     });
   },
 
-  handleFormSubmit(event) {
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    event.currentTarget.reset();
+  },
+
+  handleNavClick(event) {
+    event.preventDefault();
+    let href = $(event.target).attr("href");
+    this.renderPage(href);
+  },
+
+  handlePopstate(event) {
+    this.renderPage(window.location.pathname, false);
+  },
+
+  handleSearchSubmit(event) {
     event.preventDefault();
 
     let inputs = {
@@ -83,21 +98,6 @@ let App = {
       });
   },
   
-  handleLoginSubmit(event) {
-    event.preventDefault();
-    event.currentTarget.reset();
-  },
-
-  handleNavClick(event) {
-    event.preventDefault();
-    let href = $(event.target).attr("href");
-    this.renderPage(href);
-  },
-
-  handlePopstate(event) {
-    this.renderPage(window.location.pathname, false);
-  },
-
   init() {
     this.bindNavListeners();
     this.renderPage(window.location.pathname);    
