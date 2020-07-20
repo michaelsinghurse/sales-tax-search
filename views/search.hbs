@@ -6,19 +6,23 @@
         <ul> 
           <li>
             <label for="street" class="label-street">Street:</label>
-            <input id="street" type="text" class="input-street">
+            <input id="street" type="text" class="input-street"/>
           </li>
           <li>
             <label for="city">City:</label>
-            <input id="city" type="text" class="input-city">
+            <input id="city" type="text" class="input-city"/>
           </li>
           <li>
             <label for="state">State:</label>
-            <input id="state" type="text" class="input-state">
+            <input id="state" type="text" class="input-state"
+              pattern="[A-Za-z]{2}" 
+              title="Two letter state abbreviation"/>
           </li>
           <li>
             <label for="zip">Zip:</label>
-            <input id="zip" type="text" class="input-zip" pattern="[0-9]{5}" required>
+            <input id="zip" type="text" class="input-zip" 
+              pattern="\d{5}"
+              title="Five digit zip code" required/>
           </li>
         </ul> 
       </fieldset>
