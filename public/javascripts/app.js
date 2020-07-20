@@ -5,10 +5,12 @@ let App = {
 
   bindListeners() {
     $(".search-form").on("submit", this.handleFormSubmit.bind(this));
+    $("#login form").on("submit", this.handleLoginSubmit.bind(this));
   },
   
   bindNavListeners() {
     $("header a").on("click", this.handleNavClick.bind(this));
+    window.addEventListener("popstate", this.handlePopstate.bind(this));
   },
 
   compileHtmlTemplates() {
@@ -87,24 +89,39 @@ let App = {
       });
   },
   
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    event.currentTarget.reset();
+  },
+
   handleNavClick(event) {
     event.preventDefault();
     let href = $(event.target).attr("href");
     this.renderPage(href);
   },
 
+  handlePopstate(event) {
+    console.log("popstate");
+    console.log(window.location.pathname);
+    this.renderPage(window.location.pathname, false);
+  },
+
   init() {
     // Note: function is only called when the page is refreshed/loaded
 
     this.bindNavListeners();
+    
+    let path = window.location.pathname;
 
-    // this loads the search form
-    if (window.location.pathname === "/") {
-      console.log("triggering click on search anchor...");
+    if (path === "/" || path === "/search") {
       $("a[href='/search']").trigger("click");
+    } else if (path === "/about") {
+      $("a[href='/about']").trigger("click");
+    } else if (path === "/login") {
+      $("a[href='/login']").trigger("click");
+    } else {
+      this.renderPage(path);
     }
-
-    // TODO: handle cases where pathname !== "/", e.g. /about, /foo, /login
   },
 
   xinit() {
@@ -195,9 +212,9 @@ let App = {
     }
   },
   
-  renderPage(href) {
+  renderPage(href, pushState = true) {
     let settings = {
-      url: href,
+      url: "/views" + href,
       method: "GET",
       dataType: "html",
     };
@@ -205,7 +222,10 @@ let App = {
     $.ajax(settings)
       .done(html => {
         $("main").html(html);
-        this.bindListeners(); 
+        if (pushState) {
+          history.pushState({}, "", href);
+        }
+        this.bindListeners();
       })
       .fail((_jqXHR, _textStatus, errorThrown) => {
         console.log("Unable to load page from server.");
