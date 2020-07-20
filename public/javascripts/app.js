@@ -1,8 +1,6 @@
 "use strict";
 
 let App = {
-  resultsTemplate: null,
-
   bindListeners() {
     $(".search-form").on("submit", this.handleFormSubmit.bind(this));
     $("#login form").on("submit", this.handleLoginSubmit.bind(this));
@@ -11,10 +9,6 @@ let App = {
   bindNavListeners() {
     $("header a").on("click", this.handleNavClick.bind(this));
     window.addEventListener("popstate", this.handlePopstate.bind(this));
-  },
-
-  compileHtmlTemplates() {
-    this.resultsTemplate = Handlebars.compile($("#searchResult").html());
   },
 
   getMapGeocode(inputs) {
@@ -101,33 +95,12 @@ let App = {
   },
 
   handlePopstate(event) {
-    console.log("popstate");
-    console.log(window.location.pathname);
     this.renderPage(window.location.pathname, false);
   },
 
   init() {
-    // Note: function is only called when the page is refreshed/loaded
-
     this.bindNavListeners();
-    
-    let path = window.location.pathname;
-
-    if (path === "/" || path === "/search") {
-      $("a[href='/search']").trigger("click");
-    } else if (path === "/about") {
-      $("a[href='/about']").trigger("click");
-    } else if (path === "/login") {
-      $("a[href='/login']").trigger("click");
-    } else {
-      this.renderPage(path);
-    }
-  },
-
-  xinit() {
-    this.bindListeners();
-    this.compileHtmlTemplates();
-    this.loadMapsApi();
+    this.renderPage(window.location.pathname);    
   },
 
   insertMap(inputs) {
@@ -173,25 +146,6 @@ let App = {
     });
   },
   
-  loadMapsApi() {
-    let settings = {
-      url: "/api/mapsKey",
-      method: "GET",
-      dataType: "text",
-    };
-
-    $.ajax(settings)
-      .done(data => {
-        let script = document.createElement("script");
-        script.src = "https://maps.googleapis.com/maps/api/js?key=" + data;
-        document.head.appendChild(script);
-      })
-      .fail((_jqXHR, _textStatus, errorThrown) => {
-        console.log("Unable to load Google Maps.");
-        console.log(errorThrown); // TEMP
-      });
-  },
-
   renderHtmlFromServer(html) {
     let $resultsList = $(".results");
     if ($resultsList.children().length === 0) {
@@ -202,19 +156,17 @@ let App = {
     }
   },
 
-  xrenderHtmlFromServer(inputs, rates) {
-    let $resultsList = $(".results");
-    if ($resultsList.children().length === 0) {
-      $resultsList.prop("hidden", false).html(this.resultsTemplate({ rates, inputs }));
-    }
-    else {
-      $resultsList.prepend(this.resultsTemplate({ rates, inputs }));
-    }
-  },
-  
   renderPage(href, pushState = true) {
+    let url;
+
+    if (href === "/") {
+      url = "/views/search";
+    } else {
+      url = "/views" + href;
+    }
+
     let settings = {
-      url: "/views" + href,
+      url,
       method: "GET",
       dataType: "html",
     };
@@ -235,12 +187,6 @@ let App = {
   
   renderSearchResults(html, inputs) {
     this.renderHtmlFromServer(html);    
-    this.instantiateCopyButtons(inputs.searchId);
-    this.insertMap(inputs);
-  },
-
-  xrenderSearchResults(inputs, rates) {
-    this.renderHtmlFromServer(inputs, rates);
     this.instantiateCopyButtons(inputs.searchId);
     this.insertMap(inputs);
   },
