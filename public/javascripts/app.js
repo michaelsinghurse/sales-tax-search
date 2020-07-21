@@ -58,8 +58,8 @@ let views = {
         .done(html => {
           resolve(html);
         })
-        .fail((_jqXHR, textStatus) => {
-          reject();
+        .fail((_jqXHR, _textStatus, errorThrown) => {
+          reject(errorThrown);
         });
     });
   },
@@ -77,7 +77,7 @@ let views = {
           resolve(html);
         })
         .fail((_jqXHR, _textStatus, errorThrown) => {
-          reject();
+          reject(errorThrown);
         });
     });
   },
@@ -136,7 +136,7 @@ let app = {
         this.renderRates(html, inputs);
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
       });
   },
   
@@ -185,7 +185,7 @@ let app = {
         this.bindListeners();
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
       });
   },
 
