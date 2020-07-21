@@ -195,6 +195,10 @@ main {
   flex-wrap: wrap;
 }
 
+.input-and-rates-container {
+  overflow: hidden;
+}
+
 .results-input {
   list-style-type: none;
   padding-left: 0;
@@ -292,6 +296,12 @@ main {
 .tooltiptext:focus,
 .tooltiptext:hover {
   outline: none;
+}
+
+.no-rates-message {
+  color: red;
+  max-width: 30rem;
+  margin-top: 20px;
 }
 
 .map-container {
