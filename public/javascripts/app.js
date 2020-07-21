@@ -1,17 +1,7 @@
 "use strict";
 
-let App = {
-  bindListeners() {
-    $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
-    $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
-  },
-  
-  bindNavListeners() {
-    $("header a").on("click", this.handleNavClick.bind(this));
-    window.addEventListener("popstate", this.handlePopstate.bind(this));
-  },
-
-  getMapGeocode(inputs) {
+let map = {
+  getGeocode(inputs) {
     return new Promise((resolve, reject) => {
       let request = {
         address: inputs.street + ', ' + inputs.city + ', ' + inputs.state,
@@ -32,15 +22,30 @@ let App = {
     });
   },
   
-  getSearchId: (function() {
-    let count = 0;
-    return function() {
-      count += 1;
-      return count;
-    };
-  })(),
-  
-  getRatesFromServer(inputs) {
+  insertMap(inputs, element) {
+    this.getGeocode(inputs)
+      .then(geocode => {
+        let map = new google.maps.Map(element, {
+          center: geocode,
+          zoom: 10
+        });
+
+        let marker = new google.maps.Marker({
+          position: geocode,
+          map,
+          title: "Sales Location",
+        });
+      })
+      .catch(() => {
+        let img = document.createElement("img");
+        img.setAttribute("src", "./images/map-error.png");
+        $(element).html(img);
+      });
+  },
+};
+
+let views = {
+  getRates(inputs) {
     return new Promise((resolve, reject) => {
       let settings = {
         method: "GET",
@@ -50,16 +55,53 @@ let App = {
       };
 
       $.ajax(settings)
-        .done(data => {
-          resolve(data);
+        .done(html => {
+          resolve(html);
         })
         .fail((_jqXHR, textStatus) => {
-          // TODO: return a more helpful error message
-          reject(textStatus);
+          reject();
         });
     });
   },
 
+  getPage(url) {
+    return new Promise((resolve, reject) => {
+      let settings = {
+        url,
+        method: "GET",
+        dataType: "html",
+      };
+
+      $.ajax(settings)
+        .done(html => {
+          resolve(html);
+        })
+        .fail((_jqXHR, _textStatus, errorThrown) => {
+          reject();
+        });
+    });
+  },
+};
+
+let app = {
+  bindListeners() {
+    $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
+    $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
+  },
+  
+  bindNavListeners() {
+    $("header a").on("click", this.handleNavClick.bind(this));
+    window.addEventListener("popstate", this.handlePopstate.bind(this));
+  },
+
+  getSearchId: (function() {
+    let count = 0;
+    return function() {
+      count += 1;
+      return count;
+    };
+  })(),
+  
   handleLoginSubmit(event) {
     event.preventDefault();
     event.currentTarget.reset();
@@ -89,9 +131,9 @@ let App = {
 
     event.currentTarget.reset();
 
-    this.getRatesFromServer(inputs)
+    views.getRates(inputs)
       .then(html => {
-        this.renderSearchResults(html, inputs);
+        this.renderRates(html, inputs);
       })
       .catch(error => {
         console.log(error);
@@ -101,29 +143,6 @@ let App = {
   init() {
     this.bindNavListeners();
     this.renderPage(window.location.pathname);    
-  },
-
-  insertMap(inputs) {
-    let $map = $(`#search${inputs.searchId} .map`);
-    
-    this.getMapGeocode(inputs)
-      .then(geocode => {
-        let map = new google.maps.Map($map.get(0), {
-          center: geocode,
-          zoom: 10
-        });
-
-        let marker = new google.maps.Marker({
-          position: geocode,
-          map,
-          title: "Sales Location",
-        });
-      })
-      .catch(() => {
-        let img = document.createElement("img");
-        img.setAttribute("src", "./images/map-error.png");
-        $map.html(img);
-      });
   },
 
   instantiateCopyButtons(id) {
@@ -146,16 +165,6 @@ let App = {
     });
   },
   
-  renderHtmlFromServer(html) {
-    let $resultsList = $(".results");
-    if ($resultsList.children().length === 0) {
-      $resultsList.prop("hidden", false).html(html);
-    }
-    else {
-      $resultsList.prepend(html);
-    }
-  },
-
   renderPage(href, pushState = true) {
     let url;
 
@@ -165,30 +174,23 @@ let App = {
       url = "/views" + href;
     }
 
-    let settings = {
-      url,
-      method: "GET",
-      dataType: "html",
-    };
-
-    $.ajax(settings)
-      .done(html => {
+    views.getPage(url)
+      .then(html => {
         $("main").html(html);
         if (pushState) {
           history.pushState({}, "", href);
         }
         this.bindListeners();
       })
-      .fail((_jqXHR, _textStatus, errorThrown) => {
-        console.log("Unable to load page from server.");
-        console.log("Error thrown:", errorThrown); // TEMP 
+      .catch(error => {
+        console.log(error);
       });
   },
-  
-  renderSearchResults(html, inputs) {
-    this.renderHtmlFromServer(html);    
+
+  renderRates(html, inputs) {
+    $(".results").prepend(html);
     this.instantiateCopyButtons(inputs.searchId);
-    this.insertMap(inputs);
+    map.insertMap(inputs, $(`#search${inputs.searchId} .map`).get(0));
   },
 
   sanitize(string) {
@@ -196,6 +198,6 @@ let App = {
   },
 };
 
-$(App.init.bind(App));
+$(app.init.bind(app));
 
 
