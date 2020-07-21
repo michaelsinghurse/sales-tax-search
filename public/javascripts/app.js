@@ -79,10 +79,10 @@ let App = {
     event.preventDefault();
 
     let inputs = {
-      street: $('#street').val().trim(),
-      city: $('#city').val().trim(),
-      state: $('#state').val().trim(),
-      zip: $('#zip').val().trim(),
+      street: this.sanitize($('#street').val().trim()),
+      city: this.sanitize($('#city').val().trim()),
+      state: $('#state').val(),
+      zip: $('#zip').val(),
       country: "US",
       searchId: this.getSearchId()
     };
@@ -189,6 +189,10 @@ let App = {
     this.renderHtmlFromServer(html);    
     this.instantiateCopyButtons(inputs.searchId);
     this.insertMap(inputs);
+  },
+
+  sanitize(string) {
+    return string.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   },
 };
 
