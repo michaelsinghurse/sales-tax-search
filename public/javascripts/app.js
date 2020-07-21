@@ -170,8 +170,10 @@ let app = {
 
     if (href === "/") {
       url = "/views/search";
-    } else {
+    } else if (href === "/about" || href === "/login") {
       url = "/views" + href;
+    } else {
+      url = "/views/404";
     }
 
     views.getPage(url)

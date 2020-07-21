@@ -33,8 +33,9 @@ app.get("/views/:view", function(req, res) {
     case "login":
       res.render("login");
       break;
-    default:
-      res.render("page-not-found", { page: view });
+    case "404":
+      res.render("page-not-found");
+      break;
   }
 });
 
