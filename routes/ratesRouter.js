@@ -1,8 +1,9 @@
 "use strict";
 
 require("dotenv").config();
-const express = require('express');
-const taxjar = require('taxjar');
+const express = require("express");
+const { getRates } = require("../lib/ratesApi");
+const { getLocation } = require("../lib/locationApi");
 
 const router = express.Router();
 
@@ -14,8 +15,24 @@ router.get('/', (req, res) => {
     zip: req.query.zip,
     country: req.query.country, 
     searchId: req.query.searchId,
-  }
+  };
+  
+  Promise.allSettled([getRates(inputs), getLocation(inputs)])
+    .then(results => {
+      if (results[0].status === "fulfilled") {
+        res.render("rates-found", {
+          rates: results[0].value,
+          geo: results[1].value,
+          inputs
+        });
+      } else {
+        res.render("rates-not-found", {
+          inputs
+        });
+      }
+    });
 
+/*
   // temporary code - Tue 7/20/20
   let data = {
     rate: {
@@ -33,58 +50,18 @@ router.get('/', (req, res) => {
       freight_taxable: true,
     },
   };
-
+  
   res.render("rates-found", { 
     rates: data.rate, 
     inputs, 
   });
-
-/*
-  // temporary code - Tue 7/14/20
-  let data = {
-    rate: {
-      zip: "54155",
-      country: "US",
-      country_rate: "0.0",
-      state: "WI",
-      state_rate: 0.05,
-      county: "BROWN",
-      county_rate: 0.005,
-      city: "HOBART",
-      city_rate: 0.0,
-      combined_district_rate: 0.001,
-      combined_rate: 0.056,
-      freight_taxable: true,
-    },
-  };
-
-  res.json(data.rate);
 */
-  // original code using EJS templates
-  /*
-  const client = new taxjar({
-    apiKey: process.env.TAXJAR_KEY
+/*
+  res.render("rates-not-found", {
+    inputs
   });
+*/
 
-  client.ratesForLocation(addressObject.zip, {
-    street: addressObject.street, 
-    city: addressObject.city,
-    state: addressObject.state,
-    country: addressObject.country        
-  }).then(data => {
-    res.type('text');
-    res.render('search-result', {
-      addressObject: addressObject,
-      searchId: searchId,
-      rateObject: data
-    });
-    }).catch(err => {
-      res.type('text');
-      res.render('rates-not-found', {
-        error: err
-      });
-    });
-  */
 });
 
 module.exports = router;
