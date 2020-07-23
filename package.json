@@ -1,5 +1,5 @@
 {
-  "name": "whats-the-sales-tax",
+  "name": "sales-tax-rates",
   "version": "1.0.0",
   "description": "wep app to find sales tax rates",
   "main": "index.js",
