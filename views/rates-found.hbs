@@ -41,8 +41,8 @@
           <li class="jurisdiction-level">State</li>
           <li class="jurisdiction-name">
             <input id="name-state{{ inputs.searchId }}" type="text" 
-              value="{{ rates.state }}" 
-              aria-label="The jurisdiction name is {{ rates.state }}" 
+              value="{{ location.state }}" 
+              aria-label="The jurisdiction name is {{ location.state }}" 
               readonly />
             <button type="button" class="btn-copy" 
               data-clipboard-target="#name-state{{ inputs.searchId }}" 
@@ -68,8 +68,8 @@
           <li class="jurisdiction-level">County</li>
           <li class="jurisdiction-name">
             <input id="name-county{{ inputs.searchId }}" type="text" 
-              value="{{ rates.county }}" 
-              aria-label="The jurisdiction name is {{ rates.county }}" 
+              value="{{ location.county }}" 
+              aria-label="The jurisdiction name is {{ location.county }}" 
               readonly />
             <button type="button" class="btn-copy" 
               data-clipboard-target="#name-county{{ inputs.searchId }}" 
@@ -95,8 +95,8 @@
           <li class="jurisdiction-level">City</li>
           <li class="jurisdiction-name">
             <input id="name-city{{ inputs.searchId }}" type="text" 
-              value="{{ rates.city }}" 
-              aria-label="The jurisdiction name is {{ rates.city }}" 
+              value="{{ location.city }}" 
+              aria-label="The jurisdiction name is {{ location.city }}" 
               readonly />
             <button type="button" class="btn-copy" 
               data-clipboard-target="#name-city{{ inputs.searchId }}" 
@@ -137,6 +137,6 @@
     </ul>
   </div>
   <div class="map-container" aria-label="google map with pin on the sales location">
-    <div class="map"> </div>
+    <div class="map" data-geocode="{{ location.latLng }}"> </div>
   </div>
 </li>
