@@ -41,7 +41,7 @@ app.get("/views/:view", function(req, res) {
 });
 
 app.use("/", function(req, res) {
-  res.render("index", { MAPS_KEY: process.env.MAPS_KEY });
+  res.render("index", { MAPS_KEY: process.env.MAPS_KEY_CLIENT });
 });
 
 app.listen(app.get("port"), app.get("host"), () => {
