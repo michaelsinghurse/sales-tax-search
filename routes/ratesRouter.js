@@ -19,49 +19,20 @@ router.get('/', (req, res) => {
   
   Promise.allSettled([getRates(inputs), getLocation(inputs)])
     .then(results => {
-      if (results[0].status === "fulfilled") {
+      if (results.every(result => result.status === "fulfilled")) {
         res.render("rates-found", {
           rates: results[0].value,
-          geo: results[1].value,
-          inputs
+          location: results[1].value,
+          inputs,
         });
       } else {
         res.render("rates-not-found", {
-          inputs
+          inputs,
         });
       }
     });
-
-/*
-  // temporary code - Tue 7/20/20
-  let data = {
-    rate: {
-      zip: "54155",
-      country: "US",
-      country_rate: "0.0",
-      state: "WI",
-      state_rate: 0.05,
-      county: "BROWN",
-      county_rate: 0.005,
-      city: "HOBART",
-      city_rate: 0.0,
-      combined_district_rate: 0.001,
-      combined_rate: 0.056,
-      freight_taxable: true,
-    },
-  };
-  
-  res.render("rates-found", { 
-    rates: data.rate, 
-    inputs, 
-  });
-*/
-/*
-  res.render("rates-not-found", {
-    inputs
-  });
-*/
-
 });
 
 module.exports = router;
+
+
