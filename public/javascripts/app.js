@@ -1,46 +1,25 @@
 "use strict";
 
 let map = {
-  getGeocode(inputs) {
-    return new Promise((resolve, reject) => {
-      let request = {
-        address: inputs.street + ', ' + inputs.city + ', ' + inputs.state,
-        componentRestrictions: {
-          country: inputs.country,
-          postalCode: inputs.zip,
-        }
-      };
-
-      let geocoder = new google.maps.Geocoder();
-      geocoder.geocode(request, (results, status) => {
-        if (status === "OK") {
-          resolve(results[0].geometry.location);
-        } else {
-          reject();
-        }
-      });
-    });
-  },
-  
   insertMap(inputs, element) {
-    this.getGeocode(inputs)
-      .then(geocode => {
-        let map = new google.maps.Map(element, {
-          center: geocode,
-          zoom: 10
-        });
+    let geocode = element.dataset.geocode;
 
-        let marker = new google.maps.Marker({
-          position: geocode,
-          map,
-          title: "Sales Location",
-        });
-      })
-      .catch(() => {
-        let img = document.createElement("img");
-        img.setAttribute("src", "./images/map-error.png");
-        $(element).html(img);
+    if (geocode) {
+      let map = new google.maps.Map(element, {
+        center: JSON.parse(geocode),
+        zoom: 10
       });
+
+      let marker = new google.maps.Marker({
+        position: JSON.parse(geocode),
+        map,
+        title: "Sales Location",
+      });
+    } else {
+      let img = document.createElement("img");
+      img.setAttribute("src", "./images/map-error.png");
+      $(element).html(img);
+    }
   },
 };
 
