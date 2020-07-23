@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devstart": "npx nodemon server.js"
+    "devstart": "npx nodemon server.js",
+    "heroku-postbuild": "npm install --production"
   },
   "author": "Michael Singhurse",
   "license": "ISC",
@@ -24,5 +25,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": "13.11.0",
+    "npm": "6.14.4"
   }
 }
