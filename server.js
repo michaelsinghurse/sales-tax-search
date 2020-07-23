@@ -8,6 +8,7 @@ const ratesRouter = require('./routes/ratesRouter');
 
 const app = express();
 
+app.set("host", process.env.HOST);
 app.set("port", process.env.PORT);
 app.set("views", "./views");
 app.set("view engine", "hbs");
@@ -43,6 +44,6 @@ app.use("/", function(req, res) {
   res.render("index", { MAPS_KEY: process.env.MAPS_KEY });
 });
 
-app.listen(app.get("port"), () => {
-  console.log(`app is listening on part ${app.get("port")}...`);
+app.listen(app.get("port"), app.get("host"), () => {
+  console.log(`App is listening on port ${app.get("port")} of ${app.get("host")}!`);
 });
