@@ -1,6 +1,6 @@
 "use strict";
 
-require("dotenv").config();
+const config = require("./lib/config.js");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
@@ -8,8 +8,8 @@ const ratesRouter = require("./routes/ratesRouter");
 
 const app = express();
 
-app.set("host", process.env.HOST);
-app.set("port", process.env.PORT);
+app.set("host", config.HOST);
+app.set("port", config.PORT);
 app.set("views", "./views");
 app.set("view engine", "hbs");
 
@@ -41,7 +41,7 @@ app.get("/views/:view", function(req, res) {
 });
 
 app.use("/", function(req, res) {
-  res.render("index", { MAPS_KEY: process.env.MAPS_KEY_CLIENT });
+  res.render("index", { MAPS_KEY: config.MAPS_KEY_CLIENT });
 });
 
 app.listen(app.get("port"), app.get("host"), () => {

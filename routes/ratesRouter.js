@@ -1,6 +1,5 @@
 "use strict";
 
-require("dotenv").config();
 const express = require("express");
 const { getRates } = require("../lib/ratesApi");
 const { getLocation } = require("../lib/locationApi");
