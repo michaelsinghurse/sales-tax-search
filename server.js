@@ -40,7 +40,7 @@ app.get("/views/:view", function(req, res) {
   }
 });
 
-app.use("/", function(req, res) {
+app.use("/", function(_req, res) {
   res.render("index", { MAPS_KEY: config.MAPS_KEY_CLIENT });
 });
 

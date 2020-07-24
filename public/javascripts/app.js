@@ -1,15 +1,17 @@
 "use strict";
 
 let map = {
-  insertMap(inputs, element) {
+  insertMap(element) {
     const geocode = element.dataset.geocode;
 
     if (geocode) {
+      // eslint-disable-next-line no-undef
       const map = new google.maps.Map(element, {
         center: JSON.parse(geocode),
         zoom: 10
       });
 
+      // eslint-disable-next-line no-unused-vars, no-undef
       const marker = new google.maps.Marker({
         position: JSON.parse(geocode),
         map,
@@ -67,7 +69,7 @@ let app = {
     $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
     $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
   },
-  
+
   bindNavListeners() {
     $("header a").on("click", this.handleNavClick.bind(this));
     window.addEventListener("popstate", this.handlePopstate.bind(this));
@@ -80,7 +82,7 @@ let app = {
       return count;
     };
   })(),
-  
+
   handleLoginSubmit(event) {
     event.preventDefault();
     event.currentTarget.reset();
@@ -92,7 +94,7 @@ let app = {
     this.renderPage(href);
   },
 
-  handlePopstate(event) {
+  handlePopstate(_event) {
     this.renderPage(window.location.pathname, false);
   },
 
@@ -114,17 +116,18 @@ let app = {
       .then(html => {
         this.renderRates(html, inputs);
       })
-      .catch(error => {
+      .catch(_error => {
         //console.log(error);
       });
   },
-  
+
   init() {
     this.bindNavListeners();
-    this.renderPage(window.location.pathname);    
+    this.renderPage(window.location.pathname);
   },
 
   instantiateCopyButtons(id) {
+    // eslint-disable-next-line no-undef
     const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
 
     clipboard.on("success", event => {
@@ -143,7 +146,7 @@ let app = {
       }, 3 * 1000);
     });
   },
-  
+
   renderPage(href, pushState = true) {
     let url;
 
@@ -163,7 +166,7 @@ let app = {
         }
         this.bindListeners();
       })
-      .catch(error => {
+      .catch(_error => {
         //console.log(error);
       });
   },
@@ -171,7 +174,7 @@ let app = {
   renderRates(html, inputs) {
     $(".results").prepend(html);
     this.instantiateCopyButtons(inputs.searchId);
-    map.insertMap(inputs, $(`#search${inputs.searchId} .map`).get(0));
+    map.insertMap($(`#search${inputs.searchId} .map`).get(0));
   },
 
   sanitize(string) {

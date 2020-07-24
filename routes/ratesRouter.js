@@ -6,16 +6,18 @@ const { getLocation } = require("../lib/locationApi");
 
 const router = express.Router();
 
+const extractInputs = req => ({
+  street: req.query.street,
+  city: req.query.city,
+  state: req.query.state,
+  zip: req.query.zip,
+  country: req.query.country,
+  searchId: req.query.searchId,
+});
+
 router.get("/", (req, res) => {
-  const inputs = {
-    street: req.query.street,
-    city: req.query.city,
-    state: req.query.state,
-    zip: req.query.zip,
-    country: req.query.country, 
-    searchId: req.query.searchId,
-  };
-  
+  const inputs = extractInputs(req);
+
   Promise.allSettled([getRates(inputs), getLocation(inputs)])
     .then(results => {
       if (results.every(result => result.status === "fulfilled")) {
