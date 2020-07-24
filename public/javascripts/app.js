@@ -100,10 +100,10 @@ let app = {
     event.preventDefault();
 
     const inputs = {
-      street: this.sanitize($('#street').val().trim()),
-      city: this.sanitize($('#city').val().trim()),
-      state: $('#state').val(),
-      zip: $('#zip').val(),
+      street: this.sanitize($("#street").val().trim()),
+      city: this.sanitize($("#city").val().trim()),
+      state: $("#state").val(),
+      zip: $("#zip").val(),
       country: "US",
       searchId: this.getSearchId()
     };

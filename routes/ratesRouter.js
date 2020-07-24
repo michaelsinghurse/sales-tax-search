@@ -7,7 +7,7 @@ const { getLocation } = require("../lib/locationApi");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   const inputs = {
     street: req.query.street,
     city: req.query.city,
