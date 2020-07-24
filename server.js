@@ -22,7 +22,7 @@ app.use("/scripts", express.static(path.join(__dirname, "node_modules")));
 app.use("/api/rates", ratesRouter);
 
 app.get("/views/:view", function(req, res) {
-  let view = req.params.view;
+  const view = req.params.view;
 
   switch (view) {
     case "search":

@@ -2,21 +2,21 @@
 
 let map = {
   insertMap(inputs, element) {
-    let geocode = element.dataset.geocode;
+    const geocode = element.dataset.geocode;
 
     if (geocode) {
-      let map = new google.maps.Map(element, {
+      const map = new google.maps.Map(element, {
         center: JSON.parse(geocode),
         zoom: 10
       });
 
-      let marker = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: JSON.parse(geocode),
         map,
         title: "Sales Location",
       });
     } else {
-      let img = document.createElement("img");
+      const img = document.createElement("img");
       img.setAttribute("src", "./images/map-error.png");
       $(element).html(img);
     }
@@ -26,7 +26,7 @@ let map = {
 let views = {
   getRates(inputs) {
     return new Promise((resolve, reject) => {
-      let settings = {
+      const settings = {
         method: "GET",
         url: "/api/rates",
         data: inputs,
@@ -45,7 +45,7 @@ let views = {
 
   getPage(url) {
     return new Promise((resolve, reject) => {
-      let settings = {
+      const settings = {
         url,
         method: "GET",
         dataType: "html",
@@ -88,7 +88,7 @@ let app = {
 
   handleNavClick(event) {
     event.preventDefault();
-    let href = $(event.target).attr("href");
+    const href = $(event.target).attr("href");
     this.renderPage(href);
   },
 
@@ -99,7 +99,7 @@ let app = {
   handleSearchSubmit(event) {
     event.preventDefault();
 
-    let inputs = {
+    const inputs = {
       street: this.sanitize($('#street').val().trim()),
       city: this.sanitize($('#city').val().trim()),
       state: $('#state').val(),
@@ -128,7 +128,7 @@ let app = {
     const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
 
     clipboard.on("success", event => {
-      let $tooltip = $(event.trigger).find(".tooltiptext");
+      const $tooltip = $(event.trigger).find(".tooltiptext");
       $tooltip.text("Copied!");
       setTimeout(() => {
         $tooltip.text("Copy");
@@ -136,7 +136,7 @@ let app = {
     });
 
     clipboard.on("error", event => {
-      let $tooltip = $(event.target).find(".tooltiptext");
+      const $tooltip = $(event.target).find(".tooltiptext");
       $tooltip.text("Press Ctrl+C to copy");
       setTimeout(() => {
         $tooltip.text("Copy");
