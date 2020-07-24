@@ -77,14 +77,10 @@ main {
   flex: 1 0 auto;
 }
 
-.form-container {
+.search-form {
   width: 95%;
   max-width: 60rem;
-  margin: 0 auto;
-}
-
-.search-form {
-  margin-top: 2rem;
+  margin: 2rem auto 0;
   color: rgb(255, 50, 0);
   font-weight: 500;
   display: flex;
@@ -171,13 +167,10 @@ main {
 
 /* Search Results */
 
-.results-container {
+.results {
   width: 95%;
   max-width: 60rem;
   margin: 50px auto 0;
-}
-
-.results {
   list-style-type: none;
 }
 
