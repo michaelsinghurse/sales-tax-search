@@ -1,8 +1,9 @@
 "use strict";
 
+const appRoot = require("app-root-path");
 const express = require("express");
-const { getRates } = require("../lib/ratesApi");
-const { getLocation } = require("../lib/locationApi");
+const { getRates } = require(`${appRoot}/lib/ratesApi`);
+const { getLocation } = require(`${appRoot}/lib/locationApi`);
 
 const router = express.Router();
 
