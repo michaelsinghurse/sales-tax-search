@@ -39,8 +39,8 @@ let views = {
         .done(html => {
           resolve(html);
         })
-        .fail((_jqXHR, _textStatus, errorThrown) => {
-          reject(errorThrown);
+        .fail(() => {
+          reject();
         });
     });
   },
@@ -57,8 +57,8 @@ let views = {
         .done(html => {
           resolve(html);
         })
-        .fail((_jqXHR, _textStatus, errorThrown) => {
-          reject(errorThrown);
+        .fail(() => {
+          reject();
         });
     });
   },
@@ -116,9 +116,14 @@ let app = {
       .then(html => {
         this.renderRates(html, inputs);
       })
-      .catch(_error => {
-        //console.log(error);
+      .catch(() => {
+        this.handleServerError(); 
       });
+  },
+  
+  handleServerError() {
+    const msg = "An error occurred. Please reload the page and try again."
+    window.alert(msg);
   },
 
   init() {
@@ -166,8 +171,8 @@ let app = {
         }
         this.bindListeners();
       })
-      .catch(_error => {
-        //console.log(error);
+      .catch(() => {
+        this.handleServerError();
       });
   },
 
