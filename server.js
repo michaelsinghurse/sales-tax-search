@@ -4,7 +4,7 @@ const config = require("./lib/config.js");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
-const ratesRouter = require("./routes/ratesRouter");
+const ratesRouter = require("./routes/ratesRouter.js");
 const winston = require("./lib/winston.js");
 
 const app = express();
@@ -43,6 +43,14 @@ app.get("/views/:view", function(req, res) {
 
 app.use("/", function(_req, res) {
   res.render("index", { MAPS_KEY: config.MAPS_KEY_CLIENT });
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  winston.error(`${err.status || 500} - ${err.stack} - ${req.originalUrl} - ` +
+    `${req.method} - ${req.ip}`);
+
+  res.status(500).end();
 });
 
 app.listen(app.get("port"), app.get("host"), () => {
