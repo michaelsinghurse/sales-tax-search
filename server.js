@@ -14,7 +14,7 @@ app.set("port", config.PORT);
 app.set("views", "./views");
 app.set("view engine", "hbs");
 
-app.use(morgan("common", { stream: winston.stream }));
+app.use(morgan("short", { stream: winston.stream }));
 app.use("/", express.static(path.join(__dirname, "public")));
 
 // allow client to access node_modules folder
