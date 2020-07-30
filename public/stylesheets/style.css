@@ -212,6 +212,10 @@ main {
   border-radius: 0.3rem;
 }
 
+.results-rates > li:nth-of-type(n+2) {
+  margin-top: 0.2rem;
+}
+
 .jurisdiction-list {
   list-style-type: none;
   padding-left: 0;
@@ -479,6 +483,11 @@ footer p {
   .jurisdiction-rate {
     max-width: 100%;
     width: 100%;
+  }
+
+  .jurisdiction-name,
+  .jurisdiction-rate {
+    margin-top: 0.2rem;
   }
 
   .jurisdiction-name input,
