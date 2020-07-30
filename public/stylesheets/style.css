@@ -486,7 +486,7 @@ footer p {
     width: 12rem;
   }
 
-  .results-rates > li:nth-child(n+2) .jurisdiction-level {
+  .results-rates > li:nth-of-type(n+2) .jurisdiction-level {
     margin-top: 1rem;
   }
 }
