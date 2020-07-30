@@ -1,107 +1,93 @@
 "use strict";
 
-let map = {
-  insertMap(element) {
-    const geocode = element.dataset.geocode;
+var map = {
+  insertMap: function insertMap(element) {
+    var geocode = element.dataset.geocode;
 
     if (geocode) {
       // eslint-disable-next-line no-undef
-      const map = new google.maps.Map(element, {
+      var _map = new google.maps.Map(element, {
         center: JSON.parse(geocode),
         zoom: 10
-      });
+      }); // eslint-disable-next-line no-unused-vars, no-undef
 
-      // eslint-disable-next-line no-unused-vars, no-undef
-      const marker = new google.maps.Marker({
+
+      var marker = new google.maps.Marker({
         position: JSON.parse(geocode),
-        map,
-        title: "Sales Location",
+        map: _map,
+        title: "Sales Location"
       });
     } else {
-      const img = document.createElement("img");
+      var img = document.createElement("img");
       img.setAttribute("src", "./images/map-error.png");
       $(element).html(img);
     }
-  },
+  }
 };
-
-let views = {
-  getRates(inputs) {
-    return new Promise((resolve, reject) => {
-      const settings = {
+var views = {
+  getRates: function getRates(inputs) {
+    return new Promise(function (resolve, reject) {
+      var settings = {
         method: "GET",
         url: "/api/rates",
         data: inputs,
-        dataType: "html",
+        dataType: "html"
       };
-
-      $.ajax(settings)
-        .done(html => {
-          resolve(html);
-        })
-        .fail(() => {
-          reject();
-        });
+      $.ajax(settings).done(function (html) {
+        resolve(html);
+      }).fail(function () {
+        reject();
+      });
     });
   },
-
-  getPage(url) {
-    return new Promise((resolve, reject) => {
-      const settings = {
-        url,
+  getPage: function getPage(url) {
+    return new Promise(function (resolve, reject) {
+      var settings = {
+        url: url,
         method: "GET",
-        dataType: "html",
+        dataType: "html"
       };
-
-      $.ajax(settings)
-        .done(html => {
-          resolve(html);
-        })
-        .fail(() => {
-          reject();
-        });
+      $.ajax(settings).done(function (html) {
+        resolve(html);
+      }).fail(function () {
+        reject();
+      });
     });
-  },
+  }
 };
-
-let app = {
-  bindListeners() {
+var app = {
+  bindListeners: function bindListeners() {
     $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
     $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
   },
-
-  bindNavListeners() {
+  bindNavListeners: function bindNavListeners() {
     $("header a").on("click", this.handleNavClick.bind(this));
     window.addEventListener("popstate", this.handlePopstate.bind(this));
   },
-
-  getSearchId: (function() {
-    let count = 0;
-    return function() {
+  getSearchId: function () {
+    var count = 0;
+    return function () {
       count += 1;
       return count;
     };
-  })(),
-
-  handleLoginSubmit(event) {
+  }(),
+  handleLoginSubmit: function handleLoginSubmit(event) {
     event.preventDefault();
     event.currentTarget.reset();
   },
-
-  handleNavClick(event) {
+  handleNavClick: function handleNavClick(event) {
     event.preventDefault();
-    const href = $(event.target).attr("href");
+    var href = $(event.target).attr("href");
     this.renderPage(href);
   },
-
-  handlePopstate(_event) {
+  handlePopstate: function handlePopstate(_event) {
     this.renderPage(window.location.pathname, false);
   },
+  handleSearchSubmit: function handleSearchSubmit(event) {
+    var _this = this;
 
-  handleSearchSubmit(event) {
     event.preventDefault();
-
-    const inputs = {
+    var inputs = {
       street: this.sanitize($("#street").val().trim()),
       city: this.sanitize($("#city").val().trim()),
       state: $("#state").val(),
@@ -109,51 +95,44 @@ let app = {
       country: "US",
       searchId: this.getSearchId()
     };
-
     event.currentTarget.reset();
-
-    views.getRates(inputs)
-      .then(html => {
-        this.renderRates(html, inputs);
-      })
-      .catch(() => {
-        this.handleServerError(); 
-      });
+    views.getRates(inputs).then(function (html) {
+      _this.renderRates(html, inputs);
+    })["catch"](function () {
+      _this.handleServerError();
+    });
   },
-  
-  handleServerError() {
-    const msg = "An error occurred. Please reload the page and try again."
+  handleServerError: function handleServerError() {
+    var msg = "An error occurred. Please reload the page and try again.";
     window.alert(msg);
   },
-
-  init() {
+  init: function init() {
     this.bindNavListeners();
     this.renderPage(window.location.pathname);
   },
-
-  instantiateCopyButtons(id) {
+  instantiateCopyButtons: function instantiateCopyButtons(id) {
     // eslint-disable-next-line no-undef
-    const clipboard = new ClipboardJS(`#search${id} .btn-copy`);
-
-    clipboard.on("success", event => {
-      const $tooltip = $(event.trigger).find(".tooltiptext");
+    var clipboard = new ClipboardJS("#search".concat(id, " .btn-copy"));
+    clipboard.on("success", function (event) {
+      var $tooltip = $(event.trigger).find(".tooltiptext");
       $tooltip.text("Copied!");
-      setTimeout(() => {
+      setTimeout(function () {
         $tooltip.text("Copy");
       }, 3 * 1000);
     });
-
-    clipboard.on("error", event => {
-      const $tooltip = $(event.target).find(".tooltiptext");
+    clipboard.on("error", function (event) {
+      var $tooltip = $(event.target).find(".tooltiptext");
       $tooltip.text("Press Ctrl+C to copy");
-      setTimeout(() => {
+      setTimeout(function () {
         $tooltip.text("Copy");
       }, 3 * 1000);
     });
   },
+  renderPage: function renderPage(href) {
+    var _this2 = this;
 
-  renderPage(href, pushState = true) {
-    let url;
+    var pushState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var url;
 
     if (href === "/") {
       url = "/views/search";
@@ -163,30 +142,25 @@ let app = {
       url = "/views/404";
     }
 
-    views.getPage(url)
-      .then(html => {
-        $("main").html(html);
-        if (pushState) {
-          history.pushState({}, "", href);
-        }
-        this.bindListeners();
-      })
-      .catch(() => {
-        this.handleServerError();
-      });
-  },
+    views.getPage(url).then(function (html) {
+      $("main").html(html);
 
-  renderRates(html, inputs) {
+      if (pushState) {
+        history.pushState({}, "", href);
+      }
+
+      _this2.bindListeners();
+    })["catch"](function () {
+      _this2.handleServerError();
+    });
+  },
+  renderRates: function renderRates(html, inputs) {
     $(".results").prepend(html);
     this.instantiateCopyButtons(inputs.searchId);
-    map.insertMap($(`#search${inputs.searchId} .map`).get(0));
+    map.insertMap($("#search".concat(inputs.searchId, " .map")).get(0));
   },
-
-  sanitize(string) {
+  sanitize: function sanitize(string) {
     return string.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  },
+  }
 };
-
 $(app.init.bind(app));
-
-
