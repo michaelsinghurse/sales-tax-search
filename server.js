@@ -56,3 +56,7 @@ app.use(function(err, req, res, next) {
 app.listen(app.get("port"), app.get("host"), () => {
   console.log(`App is listening on port ${app.get("port")} of ${app.get("host")}!`);
 });
+
+module.exports = app;
+
+

@@ -2,10 +2,9 @@
   "name": "sales-tax-search",
   "version": "1.0.0",
   "description": "wep app to research sales tax rates",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "devstart": "npx nodemon server.js",
     "heroku-postbuild": "npm install --production"
   },
