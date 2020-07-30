@@ -485,6 +485,10 @@ footer p {
   .jurisdiction-rate input {
     width: 12rem;
   }
+
+  .results-rates > li:nth-child(n+2) .jurisdiction-level {
+    margin-top: 1rem;
+  }
 }
 
 /*up to a tablet*/
