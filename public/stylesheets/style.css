@@ -468,15 +468,12 @@ footer p {
   }
 }
 
-/*small to medium phone*/
-@media only screen and (max-width: 376px) {
-  header h1 {
-    font-size: 1.7rem;
-  }
-}
-
 /*up to large phone, small tablet*/
 @media only screen and (max-width: 650px) {
+  .navbar-list > li {
+    padding: 0.7rem 0.5rem;   
+  }
+
   .jurisdiction-list > li,
   .jurisdiction-level,
   .jurisdiction-name,
