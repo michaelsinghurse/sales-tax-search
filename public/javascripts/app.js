@@ -88,13 +88,10 @@ var app = {
   handleNavClick: function handleNavClick(event) {
     event.preventDefault();
     var href = $(event.target).attr("href");
-    this.renderPage(href);
+    this.renderView(href);
   },
   handlePopstate: function handlePopstate(_event) {
-    console.log("state:", _event.state); //TODO: delete
-    // this.insertView(_event.state);
-
-    this.renderPage(window.location.pathname, false);
+    this.renderView(window.location.pathname, false);
   },
   handleSearchSubmit: function handleSearchSubmit(event) {
     var _this = this;
@@ -110,7 +107,7 @@ var app = {
     };
     event.currentTarget.reset();
     views.getRates(inputs).then(function (html) {
-      _this.renderRates(html, inputs);
+      _this.renderSearchResults(html, inputs);
     })["catch"](function (_error) {
       _this.handleServerError();
     });
@@ -120,10 +117,8 @@ var app = {
     window.alert(msg);
   },
   init: function init() {
-    console.log("INIT()"); // TODO: DELETE
-
     this.bindNavListeners();
-    this.renderPage(window.location.pathname);
+    this.renderView(window.location.pathname);
   },
   instantiateCopyButtons: function instantiateCopyButtons(id) {
     // eslint-disable-next-line no-undef
@@ -143,7 +138,7 @@ var app = {
       }, 3 * 1000);
     });
   },
-  renderPage: function renderPage(href) {
+  renderView: function renderView(href) {
     var _this2 = this;
 
     var pushState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -151,9 +146,7 @@ var app = {
       $("main").html(html);
 
       if (pushState) {
-        history.pushState({
-          foo: "bar"
-        }, "", href); // TODO: change back to {}
+        history.pushState({}, "", href);
       }
 
       _this2.bindListeners();
@@ -161,7 +154,7 @@ var app = {
       _this2.handleServerError();
     });
   },
-  renderRates: function renderRates(html, inputs) {
+  renderSearchResults: function renderSearchResults(html, inputs) {
     $(".results").prepend(html);
     this.instantiateCopyButtons(inputs.searchId);
     map.insertMap($("#search".concat(inputs.searchId, " .map")).get(0));

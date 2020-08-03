@@ -93,11 +93,11 @@ const app = {
   handleNavClick(event) {
     event.preventDefault();
     const href = $(event.target).attr("href");
-    this.renderPage(href);
+    this.renderView(href);
   },
 
   handlePopstate(_event) {
-    this.renderPage(window.location.pathname, false);
+    this.renderView(window.location.pathname, false);
   },
 
   handleSearchSubmit(event) {
@@ -116,7 +116,7 @@ const app = {
 
     views.getRates(inputs)
       .then(html => {
-        this.renderRates(html, inputs);
+        this.renderSearchResults(html, inputs);
       })
       .catch(_error => {
         this.handleServerError();
@@ -130,7 +130,7 @@ const app = {
 
   init() {
     this.bindNavListeners();
-    this.renderPage(window.location.pathname);
+    this.renderView(window.location.pathname);
   },
 
   instantiateCopyButtons(id) {
@@ -154,7 +154,7 @@ const app = {
     });
   },
 
-  renderPage(href, pushState = true) {
+  renderView(href, pushState = true) {
     views.getView(href)
       .then(html => {
         $("main").html(html);
@@ -168,7 +168,7 @@ const app = {
       });
   },
 
-  renderRates(html, inputs) {
+  renderSearchResults(html, inputs) {
     $(".results").prepend(html);
     this.instantiateCopyButtons(inputs.searchId);
     map.insertMap($(`#search${inputs.searchId} .map`).get(0));
