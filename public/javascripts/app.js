@@ -34,23 +34,33 @@ var views = {
         dataType: "html"
       };
       $.ajax(settings).done(function (html) {
-        resolve(html);
-      }).fail(function () {
-        reject();
+        return resolve(html);
+      }).fail(function (_jqXHR, textStatus) {
+        return reject(new Error(textStatus));
       });
     });
   },
-  getPage: function getPage(url) {
+  getView: function getView(href) {
     return new Promise(function (resolve, reject) {
+      var url;
+
+      if (href === "/") {
+        url = "/views/search";
+      } else if (href === "/about" || href === "/login") {
+        url = "/views" + href;
+      } else {
+        url = "/views/404";
+      }
+
       var settings = {
         url: url,
         method: "GET",
         dataType: "html"
       };
       $.ajax(settings).done(function (html) {
-        resolve(html);
-      }).fail(function () {
-        reject();
+        return resolve(html);
+      }).fail(function (_jqXHR, textStatus) {
+        return reject(new Error(textStatus));
       });
     });
   }
@@ -81,6 +91,9 @@ var app = {
     this.renderPage(href);
   },
   handlePopstate: function handlePopstate(_event) {
+    console.log("state:", _event.state); //TODO: delete
+    // this.insertView(_event.state);
+
     this.renderPage(window.location.pathname, false);
   },
   handleSearchSubmit: function handleSearchSubmit(event) {
@@ -98,7 +111,7 @@ var app = {
     event.currentTarget.reset();
     views.getRates(inputs).then(function (html) {
       _this.renderRates(html, inputs);
-    })["catch"](function () {
+    })["catch"](function (_error) {
       _this.handleServerError();
     });
   },
@@ -107,6 +120,8 @@ var app = {
     window.alert(msg);
   },
   init: function init() {
+    console.log("INIT()"); // TODO: DELETE
+
     this.bindNavListeners();
     this.renderPage(window.location.pathname);
   },
@@ -132,25 +147,17 @@ var app = {
     var _this2 = this;
 
     var pushState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    var url;
-
-    if (href === "/") {
-      url = "/views/search";
-    } else if (href === "/about" || href === "/login") {
-      url = "/views" + href;
-    } else {
-      url = "/views/404";
-    }
-
-    views.getPage(url).then(function (html) {
+    views.getView(href).then(function (html) {
       $("main").html(html);
 
       if (pushState) {
-        history.pushState({}, "", href);
+        history.pushState({
+          foo: "bar"
+        }, "", href); // TODO: change back to {}
       }
 
       _this2.bindListeners();
-    })["catch"](function () {
+    })["catch"](function (_error) {
       _this2.handleServerError();
     });
   },

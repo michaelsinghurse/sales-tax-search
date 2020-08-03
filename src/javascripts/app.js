@@ -1,6 +1,6 @@
 "use strict";
 
-let map = {
+const map = {
   insertMap(element) {
     const geocode = element.dataset.geocode;
 
@@ -25,7 +25,7 @@ let map = {
   },
 };
 
-let views = {
+const views = {
   getRates(inputs) {
     return new Promise((resolve, reject) => {
       const settings = {
@@ -36,17 +36,23 @@ let views = {
       };
 
       $.ajax(settings)
-        .done(html => {
-          resolve(html);
-        })
-        .fail(() => {
-          reject();
-        });
+        .done(html => resolve(html))
+        .fail((_jqXHR, textStatus) => reject(new Error(textStatus)));
     });
   },
 
-  getPage(url) {
+  getView(href) {
     return new Promise((resolve, reject) => {
+      let url;
+
+      if (href === "/") {
+        url = "/views/search";
+      } else if (href === "/about" || href === "/login") {
+        url = "/views" + href;
+      } else {
+        url = "/views/404";
+      }
+
       const settings = {
         url,
         method: "GET",
@@ -54,17 +60,13 @@ let views = {
       };
 
       $.ajax(settings)
-        .done(html => {
-          resolve(html);
-        })
-        .fail(() => {
-          reject();
-        });
+        .done(html => resolve(html))
+        .fail((_jqXHR, textStatus) => reject(new Error(textStatus)));
     });
   },
 };
 
-let app = {
+const app = {
   bindListeners() {
     $(".search-form").on("submit", this.handleSearchSubmit.bind(this));
     $(".login-form").on("submit", this.handleLoginSubmit.bind(this));
@@ -116,13 +118,13 @@ let app = {
       .then(html => {
         this.renderRates(html, inputs);
       })
-      .catch(() => {
-        this.handleServerError(); 
+      .catch(_error => {
+        this.handleServerError();
       });
   },
-  
+
   handleServerError() {
-    const msg = "An error occurred. Please reload the page and try again."
+    const msg = "An error occurred. Please reload the page and try again.";
     window.alert(msg);
   },
 
@@ -153,17 +155,7 @@ let app = {
   },
 
   renderPage(href, pushState = true) {
-    let url;
-
-    if (href === "/") {
-      url = "/views/search";
-    } else if (href === "/about" || href === "/login") {
-      url = "/views" + href;
-    } else {
-      url = "/views/404";
-    }
-
-    views.getPage(url)
+    views.getView(href)
       .then(html => {
         $("main").html(html);
         if (pushState) {
@@ -171,7 +163,7 @@ let app = {
         }
         this.bindListeners();
       })
-      .catch(() => {
+      .catch(_error => {
         this.handleServerError();
       });
   },
