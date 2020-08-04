@@ -144,9 +144,9 @@ other key does.
 
 3. **Add an input for the seller's address**. In some states and for some
    transactions, the sales tax rate is based upon the seller's address rather
-   than the buyer's. For example, one origin-based state is Illinois. If your
-   business is based in Chicago, and you ship a product to a customer in
-   Rockford, IL, you would charge the Chicago rate (origin) rather than the
+   than the buyer's. For example, one origin-based state is Illinois. If a 
+   business is based in Chicago, and it ships a product to a customer in
+   Rockford, IL, it would charge the Chicago rate (origin) rather than the
    Rockford rate (destination). As it stands now, the app doesn't consider the
    complexities of origin- and destination-based rates. It shows you the rate
    that would apply if you bought a product face-to-face at the address you
@@ -158,8 +158,8 @@ other key does.
    groceries and medicine. Some states have different rates for software
    depending on whether the software is custom or off-the-shelf ("canned"). In
    order to present an accurate sales tax rate, the app needs to take the
-   product type into consideration. The app currently returns only the default
-   or general sales tax rate for a location.
+   product type into consideration. The app currently returns only the 
+   default/general sales tax rate for a location.
    
 ## Author
 * Michael Singhurse
