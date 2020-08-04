@@ -28,9 +28,9 @@ I wanted the app to have the look and feel of a single page application without
 the overhead of using a front-end framework. I knew at the outset that I was 
 just going to have a few pages - the search page, an about page, and a login 
 page - and I wanted each page to have the same header, background image, and 
-footer. If I had separate html files for each of those pages, there would be a 
+footer. If I had separate HTML files for each of those pages, there would be a 
 significant amount of code duplication. Instead, I chose to create one base 
-html file and use client-side JavaScript to switch out the content of the
+HTML file and use client-side JavaScript to switch out the content of the
 `main` element in response to user navigation.
 
 Let me illustrate how this works by considering the following two scenarios.
@@ -44,7 +44,7 @@ like CSS and JavaScript files and the `header`, `main` (which is empty), and
 `footer` elements. 
 
 Once the browser receives and parses the "index" page, it fires the
-`DOMContentLoaded` event. Client-side JavaScript code responds to this 
+`DOMContentLoaded` event. Client-side JavaScript responds to this 
 event by fetching and inserting the view corresponding to the url. 
 It first retrieves the url of the current page via the 
 `window.location.pathname` property. It then checks to see if that path
@@ -59,15 +59,15 @@ the view is returned, it is inserted into the `main` element.
 JavaScript code prevents the browser from taking its default action of follwing
 the link. If this were allowed to occur, 
 there would be the same two round trips to the server as illustrated in the case
-of the user entering a url (discussed above), and including a full page 
+of the user entering a url (discussed above) and a full page 
 load of the "index" page. Instead, JavaScript code sends an AJAX request for the 
 view referenced in the anchor element's `href` property, and inserts the returned 
-hmtl into the `main` element. There is not a page reload and only one trip
+HTML into the `main` element. There is not a page reload and only one trip
 across the network.
 
 If nothing more were done at this point, however, the user's back and forward
 navigation buttons would not work as expected. Because the browser's default
-action was prevented, the session history is not updated and the browser
+action was prevented, the session history was not updated and the browser
 acts as if the page was never changed. In order to simulate a true page change,
 I used the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History)
 to add the new url to the history stack via the `history.pushState` method. 
@@ -75,38 +75,38 @@ The first and second arguments to the method are `state` and `title`. Since
 the application isn't maintaining state between pages and
 since the title attribute is ignored by most browsers, I simply pass in an empty
 object and an empty string, respectively. The third argument, `url`, is the 
-relevent one here, and I pass in the value of the anchor elements `href`
+relevent one here, and I pass in the value of the anchor element's `href`
 property. After doing this, the back and forward buttons work as expected. 
 
 ### Minimizing the Wait for a Map
 
 Rendering the map at the sales location is a two-step process involving two
-separate Google Maps API's. First, I need to call the Google Maps Gecoding API 
+separate Google Maps API's. I first need to call the Google Maps Gecoding API 
 in order to determine the latitude and longitude of the sales location. 
-I then pass these coordinates to the Google Maps JavaScript API and it
+I then pass these coordinates to the Google Maps JavaScript API, and it
 renders a map centered at that location. The JavaScript API must be used in 
-the browser, while the Geocoding API can be used in either the browser or
-server.
+the browser, while the Geocoding API can be used either in the browser or
+the server.
 
 In my first iteration of the app, I called the Geocoding API and JavaScript API
-in sequence from teh browser. Upon a search for submit, I took the street, city, 
+in sequence from the browser. Upon a search form submit, I took the street, city, 
 state, and zip and made an AJAX request to the server. The server called the 
 Avalara AvaTax API for the tax rates at that address and rendered a view that 
-contained the rates. I then inserted the view in the `main` element and  
+contained the rates. I then inserted the view in the `main` element and 
 called the Geocoding API and the JavaScript API. What happened was that 
 the `div` container for the map would be empty for a second or two while 
-awaiting the two API's responses. I didn't want this to happen so I 
+awaiting the two API responses. I didn't want this to happen so I 
 re-factored the steps.
 
 The current iteration has the server calling both the Avalara and Geocoding
 API's. I use `Promise.allReady()` to wait for the response from both API's,
-and then render a view that contains the rates and the latitude and longitude.
+and then render a view that contains both the rates and the latitude and longitude.
 The latitude and longitude are placed in a `data` attribute in the map's `div`
 container. Once the HTML is returned and inserted to the DOM, only the JavaScript 
 API needs called. It pulls the latitude and longitude from from the map container, 
 and then renders the map based on those coordinates. I didn't measure the 
 difference in speed, but now the map typically renders less than a second after 
-the search results html does. 
+the search results HTML does. 
 
 ### Exposing the Google Maps API key
 
@@ -114,19 +114,19 @@ The Google Maps JavaScript API key must be embedded in a `script` element.
 This poses a security problem as anyone who is motivated can look at the
 HTML of your page and steal the key. In addition, if you have the key embedded
 in your markup, it will show up on GitHub. I did this initially and
-received security warnings from GitHub, and so knew I need to change something.
+received security warnings from GitHub, and so I knew I needed to change something.
 
-I took a few steps to try to mitigate the liklihood of my key being stolen
+I took a few steps to mitigate the liklihood of my key being stolen
 and the damage that might occur if it were. 
 
-First, rather than have the key typed in the HTML, I put it in an environment 
+First, rather than storing the key in the HTML file, I put it in an environment 
 variable and have the view engine insert it when the page is sent by the server.
 Someone can still access the HTML if they are viewing the web site, but at 
 least it's not sitting there in the markup in my public repo.
 
 Second, I set restrictions on the key through the Google Console. I restricted
 the key to only specific hosts, and so unless the request is coming from one
-of the two or three websites I specify, it will be rejected.
+of the two or three websites I specify, the request will be rejected.
 
 Third, I created a separate key for the Geocoding API. As I said above, I use
 the Geocoding API on the server-side only, and so this key doesn't come with the
@@ -154,7 +154,8 @@ same security vulnerabilities as using the other key does.
    Rockford, IL, you would charge the Chicago rate (origin) rather than the 
    Rockford rate (destination). As it stands now, the app doesn't consider the
    complexities of origin- and destination-based rates. It shows you the rate
-   that would apply if you bought a product face-to-face at the entered address. 
+   that would apply if you bought a product face-to-face at the address you 
+   entered. 
 
 4. **Add an input for the product type**. Product types add another layer of 
    complexity to sales tax rates. There are different rates for different 
@@ -162,7 +163,8 @@ same security vulnerabilities as using the other key does.
    groceries and medicine. Some states have different rates for software 
    depending on whether the software is custom or off-the-shelf ("canned"). 
    In order to present an accurate sales tax rate, the app needs to take the 
-   product type into consideration.
+   product type into consideration. The app currently returns only the default
+   or general sales tax rate for a location.
    
 ## Author
 * Michael Singhurse
