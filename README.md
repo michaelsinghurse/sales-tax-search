@@ -56,7 +56,7 @@ a page that doesn't exist, a request is sent to "/views/404". Finally, once
 the view is returned, it is inserted into the `main` element.
 
 **#2: User clicks a navigation anchor.** When the user clicks a navigation bar anchor,
-JavaScript code prevents the browser from taking its default action of follwing
+JavaScript code prevents the browser from taking its default action of following
 the link. If this were allowed to occur, 
 there would be the same two round trips to the server as illustrated in the case
 of the user entering a url (discussed above) and a full page 
@@ -75,13 +75,13 @@ The first and second arguments to the method are `state` and `title`. Since
 the application isn't maintaining state between pages and
 since the title attribute is ignored by most browsers, I simply pass in an empty
 object and an empty string, respectively. The third argument, `url`, is the 
-relevent one here, and I pass in the value of the anchor element's `href`
+relevant one here, and I pass in the value of the anchor element's `href`
 property. After doing this, the back and forward buttons work as expected. 
 
 ### Minimizing the Wait for a Map
 
 Rendering the map at the sales location is a two-step process involving two
-separate Google Maps API's. I first need to call the Google Maps Gecoding API 
+separate Google Maps API's. I first need to call the Google Maps Geocoding API 
 in order to determine the latitude and longitude of the sales location. 
 I then pass these coordinates to the Google Maps JavaScript API, and it
 renders a map centered at that location. The JavaScript API must be used in 
@@ -116,21 +116,19 @@ HTML of your page and steal the key. In addition, if you have the key embedded
 in your markup, it will show up on GitHub. I did this initially and
 received security warnings from GitHub, and so I knew I needed to change something.
 
-I took a few steps to mitigate the liklihood of my key being stolen
+I took a few steps to mitigate the likelihood of my key being stolen
 and the damage that might occur if it were. 
 
 First, rather than storing the key in the HTML file, I put it in an environment 
 variable and have the view engine insert it when the page is sent by the server.
 Someone can still access the HTML if they are viewing the web site, but at 
-least it's not sitting there in the markup in my public repo.
-
-Second, I set restrictions on the key through the Google Console. I restricted
-the key to only specific hosts, and so unless the request is coming from one
-of the two or three websites I specify, the request will be rejected.
-
-Third, I created a separate key for the Geocoding API. As I said above, I use
-the Geocoding API on the server-side only, and so this key doesn't come with the
-same security vulnerabilities as using the other key does. 
+least it's not sitting there in the markup in my public repo. Second, I set 
+restrictions on the key through the Google Console. I restricted the key to 
+only specific hosts, and so unless the request is coming from one of the two or 
+three websites I specify, the request will be rejected. Third, I created a 
+separate key for the Geocoding API. As I said above, I use the Geocoding API on 
+the server-side only, and so this key doesn't come with the same security 
+vulnerabilities as using the other key does. 
 
 ## Potential Features
 1. **Add links to jurisdiction websites**. One accountant suggested that it would be 
