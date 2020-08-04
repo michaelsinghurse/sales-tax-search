@@ -88,10 +88,12 @@ var app = {
   handleNavClick: function handleNavClick(event) {
     event.preventDefault();
     var href = $(event.target).attr("href");
-    this.renderView(href);
+    this.renderView(href, {
+      history: "push"
+    });
   },
   handlePopstate: function handlePopstate(_event) {
-    this.renderView(window.location.pathname, false);
+    this.renderView(window.location.pathname, {});
   },
   handleSearchSubmit: function handleSearchSubmit(event) {
     var _this = this;
@@ -118,7 +120,9 @@ var app = {
   },
   init: function init() {
     this.bindNavListeners();
-    this.renderView(window.location.pathname);
+    this.renderView(window.location.pathname, {
+      history: "replace"
+    });
   },
   instantiateCopyButtons: function instantiateCopyButtons(id) {
     // eslint-disable-next-line no-undef
@@ -138,15 +142,20 @@ var app = {
       }, 3 * 1000);
     });
   },
-  renderView: function renderView(href) {
+  // `options` is an object with one key, `history`. set `history` to "push" if
+  // `href` should be pushed on to the session history stack or to "replace" if 
+  // it should replace the current element on the stack. if neither, the 
+  // session history stack will not be modified via the history API
+  renderView: function renderView(href, options) {
     var _this2 = this;
 
-    var pushState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     views.getView(href).then(function (html) {
       $("main").html(html);
 
-      if (pushState) {
+      if (options.history === "push") {
         history.pushState({}, "", href);
+      } else if (options.history === "replace") {
+        history.replaceState({}, "", href);
       }
 
       _this2.bindListeners();

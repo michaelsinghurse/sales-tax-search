@@ -93,11 +93,11 @@ const app = {
   handleNavClick(event) {
     event.preventDefault();
     const href = $(event.target).attr("href");
-    this.renderView(href);
+    this.renderView(href, { history: "push" });
   },
 
   handlePopstate(_event) {
-    this.renderView(window.location.pathname, false);
+    this.renderView(window.location.pathname, {});
   },
 
   handleSearchSubmit(event) {
@@ -130,7 +130,7 @@ const app = {
 
   init() {
     this.bindNavListeners();
-    this.renderView(window.location.pathname);
+    this.renderView(window.location.pathname, { history: "replace" });
   },
 
   instantiateCopyButtons(id) {
@@ -154,12 +154,18 @@ const app = {
     });
   },
 
-  renderView(href, pushState = true) {
+  // `options` is an object with one key, `history`. set `history` to "push" if
+  // `href` should be pushed on to the session history stack or to "replace" if 
+  // it should replace the current element on the stack. if neither, the 
+  // session history stack will not be modified via the history API
+  renderView(href, options) {
     views.getView(href)
       .then(html => {
         $("main").html(html);
-        if (pushState) {
+        if (options.history === "push") {
           history.pushState({}, "", href);
+        } else if (options.history === "replace") {
+          history.replaceState({}, "", href);
         }
         this.bindListeners();
       })
