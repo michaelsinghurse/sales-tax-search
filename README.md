@@ -5,8 +5,7 @@ accountants with the often tedious task of looking up sales tax rates. It is
 still under development and all suggestions for its improvement are much
 appreciated.
 
-*Notes:
-- 08/19/20: I'm currently rewritting the application using React and
+*08/19/20: I'm currently rewritting the application using React and
 friends on the front end. See v2 of the app here: 
 https://github.com/michaelsinghurse/sales-tax-search-v2.*
 
