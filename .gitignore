@@ -3,3 +3,4 @@ node_modules
 sandbox.js
 .eslintrc.yml
 logs/*
+notes.txt
